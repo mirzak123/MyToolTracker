@@ -14,7 +14,8 @@ namespace MyToolTrackerAPI.Controllers
 		private readonly ICompanyRepository _companyRepository;
 		private readonly IMapper _mapper;
 
-		public CompaniesController(ICompanyRepository companyRepository, IMapper mapper)
+		public CompaniesController(ICompanyRepository companyRepository,
+			IMapper mapper)
 		{
 			_companyRepository = companyRepository;
 			_mapper = mapper;
@@ -24,7 +25,8 @@ namespace MyToolTrackerAPI.Controllers
 		[ProducesResponseType(200, Type = typeof(IEnumerable<Company>))]
 		public IActionResult GetCompanies()
 		{
-			var companies = _mapper.Map<List<CompanyDto>>(_companyRepository.GetCompanies());
+			var companies = _mapper.Map<List<CompanyDto>>(_companyRepository
+				.GetCompanies());
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -40,7 +42,8 @@ namespace MyToolTrackerAPI.Controllers
 			if (!_companyRepository.CompanyExists(companyId))
 				return NotFound();
 
-			var company = _mapper.Map<CompanyDto>(_companyRepository.GetCompany(companyId));
+			var company = _mapper.Map<CompanyDto>(_companyRepository
+				.GetCompany(companyId));
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);

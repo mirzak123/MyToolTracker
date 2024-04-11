@@ -14,7 +14,8 @@ namespace MyToolTrackerAPI.Controllers
 		private readonly IProjectRepository _projectRepository;
 		private readonly IMapper _mapper;
 
-		public ProjectsController(IProjectRepository projectRepository, IMapper mapper)
+		public ProjectsController(IProjectRepository projectRepository,
+			IMapper mapper)
 		{
 			_projectRepository = projectRepository;
 			_mapper = mapper;
@@ -24,7 +25,8 @@ namespace MyToolTrackerAPI.Controllers
 		[ProducesResponseType(200, Type = typeof(IEnumerable<Project>))]
 		public IActionResult GetProjects()
 		{
-			var projects = _mapper.Map<List<ProjectDto>>(_projectRepository.GetProjects());
+			var projects = _mapper.Map<List<ProjectDto>>(_projectRepository
+				.GetProjects());
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -40,7 +42,8 @@ namespace MyToolTrackerAPI.Controllers
 			if (!_projectRepository.ProjectExists(projectId))
 				return NotFound();
 
-			var project = _mapper.Map<ProjectDto>(_projectRepository.GetProject(projectId));
+			var project = _mapper.Map<ProjectDto>(_projectRepository
+				.GetProject(projectId));
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);

@@ -14,7 +14,8 @@ namespace MyToolTrackerAPI.Controllers
 		private readonly IEmployeeRepository _employeeRepository;
 		private readonly IMapper _mapper;
 
-		public EmployeesController(IEmployeeRepository employeeRepository, IMapper mapper)
+		public EmployeesController(IEmployeeRepository employeeRepository,
+			IMapper mapper)
 		{
 			_employeeRepository = employeeRepository;
 			_mapper = mapper;
@@ -24,7 +25,8 @@ namespace MyToolTrackerAPI.Controllers
 		[ProducesResponseType(200, Type = typeof(IEnumerable<Employee>))]
 		public IActionResult GetEmployees()
 		{
-			var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository.GetEmployees());
+			var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository
+				.GetEmployees());
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
@@ -40,7 +42,8 @@ namespace MyToolTrackerAPI.Controllers
 			if (!_employeeRepository.EmployeeExists(employeeId))
 				return NotFound();
 
-			var employee = _mapper.Map<EmployeeDto>(_employeeRepository.GetEmployee(employeeId));
+			var employee = _mapper.Map<EmployeeDto>(_employeeRepository
+				.GetEmployee(employeeId));
 
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);

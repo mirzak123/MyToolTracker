@@ -15,6 +15,7 @@ builder.Services.AddTransient<Seed>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Add repositories
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();

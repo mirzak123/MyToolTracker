@@ -7,7 +7,6 @@ namespace MyToolTrackerAPI.Dto
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
 
         // Foreign keys
         public int UserRoleId { get; set; }
