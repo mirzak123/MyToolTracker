@@ -13,6 +13,7 @@ namespace MyToolTrackerAPI.Dto
 
         // Foreign keys
         public int CategoryId { get; set; }
+        public int ToolStatusId { get; set; }
     }
 }
 

@@ -10,4 +10,3 @@ namespace MyToolTrackerAPI.Models
         public ICollection<User> Users { get; set; }
 	}
 }
-

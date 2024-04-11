@@ -93,7 +93,7 @@ namespace MyToolTrackerAPI
                       Jmbg = "1234567890125",
                       IdCardNumber = "123456787",
                       ContactNumber = "123456787",
-                      EmployeeType = employeeTypes[3],
+                      EmployeeType = employeeTypes[2],
                   },
                   new Employee()
                   {
@@ -173,7 +173,6 @@ namespace MyToolTrackerAPI
                   {
                        StartDate = new DateOnly(2023, 4, 12),
                        EndDate = new DateOnly(2023, 4, 12),
-                       EmployeeId = 0,
                        Employee = employees[0],
                        Tool = new Tool()
                        {
@@ -182,17 +181,14 @@ namespace MyToolTrackerAPI
                          Manufacturer = "Hammer Manufacturer",
                          Price = 10,
                          Barcode = "1234567890123",
-                         CategoryId = 1,
                          Category = categories[0],
                          EntryDate = new DateTime(2023, 4, 12),
+                         ToolStatus = toolStatuses[1],
                        },
-                       ToolId = 1,
-                       ProjectId = 1,
                        Project = new Project()
                        {
                          ContractNumber = "1234567890123",
                          Year = 2023,
-                         CompanyId = 1,
                          Company = new Company()
                          {
                            Name = "Company 1",
@@ -218,8 +214,8 @@ namespace MyToolTrackerAPI
                          Price = 5,
                          Barcode = "1234567890124",
                          EntryDate = new DateTime(2023, 4, 12),
-                         CategoryId = 3,
                          Category = categories[2],
+                         ToolStatus = toolStatuses[1],
                        },
                        Project = new Project()
                        {
@@ -238,7 +234,9 @@ namespace MyToolTrackerAPI
                        },
                   },
             };
-
+                dataContext.CompanyTypes.AddRange(companyTypes);
+                dataContext.EmployeeTypes.AddRange(employeeTypes);
+                dataContext.ToolStatuses.AddRange(toolStatuses);
                 dataContext.Employees.AddRange(employees);
                 dataContext.Categories.AddRange(categories);
                 dataContext.OrderRequests.AddRange(orderRequests);

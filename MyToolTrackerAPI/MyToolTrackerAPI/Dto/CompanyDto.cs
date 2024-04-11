@@ -10,7 +10,7 @@ namespace MyToolTrackerAPI.Dto
         public string ContactPerson { get; set; }
         public string ContactPersonPhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Type { get; set; }
+        public int CompanyTypeId { get; set; }
     }
 }
 

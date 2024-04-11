@@ -17,6 +17,9 @@ namespace MyToolTrackerAPI.Data
         public DbSet<Tool> Tools { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<EmployeeType> EmployeeTypes { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
+        public DbSet<ToolStatus> ToolStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

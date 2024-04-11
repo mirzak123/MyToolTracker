@@ -11,7 +11,7 @@ namespace MyToolTrackerAPI.Dto
         public string Jmbg { get; set; }
         public string IdCardNumber { get; set; }
         public string ContactNumber { get; set; }
-        public string Type { get; set; }
+        public int EmployeeTypeId { get; set; }
     }
 }
 
