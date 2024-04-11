@@ -15,7 +15,7 @@ namespace MyToolTrackerAPI.Repository
 
         public bool EmployeeExists(int id)
         {
-            return true;
+            return _context.Employees.Any(e => e.Id == id);
         }
 
         public Employee GetEmployee(int id)

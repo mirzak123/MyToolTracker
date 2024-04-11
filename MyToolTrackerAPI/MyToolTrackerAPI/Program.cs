@@ -14,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IToolRepository, ToolRepository>();
 
 // To make api available for the frontend
 builder.Services.AddCors(options =>
