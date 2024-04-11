@@ -9,7 +9,9 @@ namespace MyToolTrackerAPI.Helper
 	{
 		public MappingProfiles()
 		{
+			CreateMap<Company, CompanyDto>();
 			CreateMap<Employee, EmployeeDto>();
+			CreateMap<Project, ProjectDto>();
 			CreateMap<Tool, ToolDto>();
 		}
 	}

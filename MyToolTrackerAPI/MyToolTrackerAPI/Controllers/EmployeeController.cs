@@ -27,9 +27,7 @@ namespace MyToolTrackerAPI.Controllers
 			var employees = _mapper.Map<List<EmployeeDto>>(_employeeRepository.GetEmployees());
 
 			if (!ModelState.IsValid)
-			{
 				return BadRequest(ModelState);
-			}
 
 			return Ok(employees);
 		}
