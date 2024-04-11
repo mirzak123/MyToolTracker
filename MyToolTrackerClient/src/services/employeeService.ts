@@ -1,6 +1,6 @@
 import { Employee } from '@/types/employee';
 import { EmployeeType } from '@/types/employeeType';
-import { BASE_URL } from '../../constraints';
+import { BASE_URL } from '../../constants';
 
 export interface IEmployeeService {
   getEmployees(): Promise<Employee[]>;
