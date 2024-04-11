@@ -9,12 +9,12 @@ namespace MyToolTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
 	[ApiController]
-	public class EmployeeController : Controller
+	public class EmployeesController : Controller
 	{
 		private readonly IEmployeeRepository _employeeRepository;
 		private readonly IMapper _mapper;
 
-		public EmployeeController(IEmployeeRepository employeeRepository, IMapper mapper)
+		public EmployeesController(IEmployeeRepository employeeRepository, IMapper mapper)
 		{
 			_employeeRepository = employeeRepository;
 			_mapper = mapper;

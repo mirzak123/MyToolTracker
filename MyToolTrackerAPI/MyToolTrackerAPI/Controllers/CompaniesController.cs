@@ -9,12 +9,12 @@ namespace MyToolTrackerAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class CompanyController : Controller
+	public class CompaniesController : Controller
 	{
 		private readonly ICompanyRepository _companyRepository;
 		private readonly IMapper _mapper;
 
-		public CompanyController(ICompanyRepository companyRepository, IMapper mapper)
+		public CompaniesController(ICompanyRepository companyRepository, IMapper mapper)
 		{
 			_companyRepository = companyRepository;
 			_mapper = mapper;

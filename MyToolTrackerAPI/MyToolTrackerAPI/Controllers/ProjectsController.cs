@@ -9,12 +9,12 @@ namespace MyToolTrackerAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ProjectController : Controller
+	public class ProjectsController : Controller
 	{
 		private readonly IProjectRepository _projectRepository;
 		private readonly IMapper _mapper;
 
-		public ProjectController(IProjectRepository projectRepository, IMapper mapper)
+		public ProjectsController(IProjectRepository projectRepository, IMapper mapper)
 		{
 			_projectRepository = projectRepository;
 			_mapper = mapper;
