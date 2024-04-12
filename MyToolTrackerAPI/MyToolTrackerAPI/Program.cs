@@ -20,8 +20,9 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyTypeRepository, CompanyTypeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeTypeRepository, EmployeeTypeRepository>();
-builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IToolRepository, ToolRepository>();
+builder.Services.AddScoped<IToolStatusRepository, ToolStatusRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
 // To make api available for the frontend
