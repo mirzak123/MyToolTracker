@@ -19,6 +19,12 @@ namespace MyToolTrackerAPI.Repository
             return _context.Categories.Any(c => c.Id == id);
         }
 
+        public bool CreateCategory(Category category)
+        {
+            _context.Add(category);
+            return Save();
+        }
+
         public ICollection<Category> GetCategories()
         {
             return _context.Categories.OrderBy(c => c.Id).ToList();
@@ -32,6 +38,12 @@ namespace MyToolTrackerAPI.Repository
         public Category GetCategory(string name)
         {
             return _context.Categories.Where(c => c.Name == name).FirstOrDefault();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
