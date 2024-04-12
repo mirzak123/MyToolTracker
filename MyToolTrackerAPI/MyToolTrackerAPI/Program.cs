@@ -20,6 +20,7 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyTypeRepository, CompanyTypeRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeTypeRepository, EmployeeTypeRepository>();
+builder.Services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<IToolStatusRepository, ToolStatusRepository>();

@@ -37,7 +37,7 @@ namespace MyToolTrackerAPI.Controllers
 		[HttpGet("{employeeId}")]
 		[ProducesResponseType(200, Type = typeof(Employee))]
 		[ProducesResponseType(400)]
-		public IActionResult GetEmplyee(int employeeId)
+		public IActionResult GetEmployee(int employeeId)
 		{
 			if (!_employeeRepository.EmployeeExists(employeeId))
 				return NotFound();
