@@ -1,6 +1,7 @@
 ﻿using MyToolTrackerAPI.Data;
 using MyToolTrackerAPI.Models;
 using MyToolTrackerAPI.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MyToolTrackerAPI.Repository
 {
@@ -12,6 +13,12 @@ namespace MyToolTrackerAPI.Repository
 		{
 			_context = context;
 		}
+
+        public bool CreateEmployee(Employee employee)
+        {
+            _context.Add(employee);
+            return Save();
+        }
 
         public bool EmployeeExists(int id)
         {
@@ -40,7 +47,11 @@ namespace MyToolTrackerAPI.Repository
             return _context.Employees.OrderBy(e => e.Id).ToList();
 		}
 
-		
-	}
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+    }
 }
 

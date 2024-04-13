@@ -9,6 +9,8 @@ namespace MyToolTrackerAPI.Interfaces
 		Company GetCompany(int id);
 		Company GetCompany(string name);
 		bool CompanyExists(int id);
-	}
+        bool CreateCompany(Company company);
+        bool Save();
+    }
 }
 

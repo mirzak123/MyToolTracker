@@ -50,6 +50,38 @@ namespace MyToolTrackerAPI.Controllers
 
 			return Ok(employee);
 		}
+
+		[HttpPost]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(400)]
+		public IActionResult CreateEmployee([FromBody] EmployeeDto employeeCreate)
+		{
+			if (employeeCreate == null)
+				return BadRequest(ModelState);
+
+			var employee = _employeeRepository.GetEmployees()
+				.Where(e => e.IdCardNumber.Trim().ToUpper() ==
+				employeeCreate.IdCardNumber.Trim().ToUpper()).FirstOrDefault();
+
+			if (employee != null)
+			{
+				ModelState.AddModelError("", "Employee already exists");
+				return StatusCode(422, ModelState);
+			}
+
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var employeeMap = _mapper.Map<Employee>(employeeCreate);
+
+			if (!_employeeRepository.CreateEmployee(employeeMap))
+			{
+				ModelState.AddModelError("", "Something went wrong while saving");
+				return StatusCode(500, ModelState);
+			}
+
+			return Ok("Successfully created");
+		}
 	}
 }
 

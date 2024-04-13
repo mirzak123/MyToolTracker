@@ -5,7 +5,7 @@ using MyToolTrackerAPI.Models;
 
 namespace MyToolTrackerAPI.Repository
 {
-	public class CompanyRepository : ICompanyRepository
+    public class CompanyRepository : ICompanyRepository
 	{
 		private readonly DataContext _context;
 
@@ -19,7 +19,13 @@ namespace MyToolTrackerAPI.Repository
 			return _context.Companies.Any(c => c.Id == id);
 		}
 
-		public ICollection<Company> GetCompanies()
+        public bool CreateCompany(Company company)
+        {
+			_context.Add(company);
+			return Save();
+        }
+
+        public ICollection<Company> GetCompanies()
 		{
 			return _context.Companies.OrderBy(c => c.Id).ToList();
 		}
@@ -33,6 +39,12 @@ namespace MyToolTrackerAPI.Repository
 		{
 			return _context.Companies.Where(c => c.Name == name).FirstOrDefault();
 		}
-	}
+
+        public bool Save()
+        {
+			var saved = _context.SaveChanges();
+			return saved > 0 ? true : false;
+        }
+    }
 }
 

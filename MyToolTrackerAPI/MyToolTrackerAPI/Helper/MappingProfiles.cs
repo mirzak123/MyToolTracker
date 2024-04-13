@@ -10,7 +10,6 @@ namespace MyToolTrackerAPI.Helper
 		public MappingProfiles()
 		{
 			CreateMap<Category, CategoryDto>();
-			CreateMap<CategoryDto, Category>();
 			CreateMap<Company, CompanyDto>();
 			CreateMap<CompanyType, CompanyTypeDto>();
 			CreateMap<Employee, EmployeeDto>();
@@ -20,7 +19,12 @@ namespace MyToolTrackerAPI.Helper
 			CreateMap<Tool, ToolDto>();
 			CreateMap<ToolStatus, ToolStatusDto>();
 			CreateMap<UserRole, UserRoleDto>();
-		}
-	}
+
+            CreateMap<CategoryDto, Category>();
+            CreateMap<CompanyDto, Company>();
+			CreateMap<EmployeeDto, Employee>();
+
+        }
+    }
 }
 

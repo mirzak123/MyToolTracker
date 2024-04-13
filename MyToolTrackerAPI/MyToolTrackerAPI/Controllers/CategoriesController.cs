@@ -57,9 +57,11 @@ namespace MyToolTrackerAPI.Controllers
 		public IActionResult CreateCategory(
 			[FromBody] CategoryDto categoryCreate)
 		{
+			// Check if CategoryDto is provided in the body
 			if (categoryCreate == null)
 				return BadRequest(ModelState);
 
+			// Check if there already exists a Category with the same name
 			var category = _categoryRepository.GetCategories()
 				.Where(c => c.Name.Trim().ToUpper() == categoryCreate.Name.TrimEnd().ToUpper())
 				.FirstOrDefault();

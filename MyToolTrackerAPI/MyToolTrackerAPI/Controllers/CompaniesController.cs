@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using MyToolTrackerAPI.Repository;
 
 namespace MyToolTrackerAPI.Controllers
 {
@@ -50,6 +51,40 @@ namespace MyToolTrackerAPI.Controllers
 
 			return Ok(company);
 		}
-	}
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCompany(
+            [FromBody] CompanyDto companyCreate)
+        {
+            if (companyCreate == null)
+                return BadRequest(ModelState);
+
+            var company = _companyRepository.GetCompanies()
+                .Where(c => c.Name.Trim().ToUpper() ==
+				companyCreate.Name.TrimEnd().ToUpper()).FirstOrDefault();
+
+            if (company != null)
+            {
+                ModelState.AddModelError("", "Company already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var companyMap = _mapper.Map<Company>(companyCreate);
+
+            if (!_companyRepository.CreateCompany(companyMap))
+            {
+                ModelState.AddModelError("",
+                    "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
+        }
+    }
 }
 
