@@ -14,6 +14,12 @@ namespace MyToolTrackerAPI.Repository
             _context = context;
 		}
 
+        public bool CreateProject(Project project)
+        {
+            _context.Add(project);
+            return Save();
+        }
+
         public Project GetProject(int id)
         {
             return _context.Projects.Where(p => p.Id == id).FirstOrDefault();
@@ -27,6 +33,12 @@ namespace MyToolTrackerAPI.Repository
         public bool ProjectExists(int id)
         {
             return _context.Projects.Any(p => p.Id == id);
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
