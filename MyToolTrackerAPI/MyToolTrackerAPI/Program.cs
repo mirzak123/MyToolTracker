@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MyToolTrackerAPI;
 using MyToolTrackerAPI.Repository;
 using MyToolTrackerAPI.Interfaces;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,16 @@ builder.Services.AddCors(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Swagger bug fix
+// Does not display DateOnly in correct format by default
+builder.Services.AddSwaggerGen(options => {
+    options.MapType<DateOnly>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Format = "date"
+    });
+});
 
 var app = builder.Build();
 

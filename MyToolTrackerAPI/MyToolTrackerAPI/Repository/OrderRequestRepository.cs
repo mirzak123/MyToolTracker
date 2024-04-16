@@ -14,6 +14,12 @@ namespace MyToolTrackerAPI.Repository
             _context = context;
 		}
 
+        public bool CreateOrderRequest(OrderRequest orderRequest)
+        {
+            _context.Add(orderRequest);
+            return Save();
+        }
+
         public OrderRequest GetOrderRequest(int id)
         {
             return _context.OrderRequests.Where(or => or.Id == id)
@@ -28,6 +34,12 @@ namespace MyToolTrackerAPI.Repository
         public bool OrderRequestExists(int id)
         {
             return _context.OrderRequests.Any(or => or.Id == id);
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

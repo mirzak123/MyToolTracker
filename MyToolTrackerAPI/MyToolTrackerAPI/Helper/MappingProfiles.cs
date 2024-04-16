@@ -23,6 +23,7 @@ namespace MyToolTrackerAPI.Helper
             CreateMap<CategoryDto, Category>();
             CreateMap<CompanyDto, Company>();
 			CreateMap<EmployeeDto, Employee>();
+			CreateMap<OrderRequestDto, OrderRequest>();
 
         }
     }

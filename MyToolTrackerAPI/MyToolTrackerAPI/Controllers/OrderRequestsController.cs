@@ -50,6 +50,38 @@ namespace MyToolTrackerAPI.Controllers
 
             return Ok(orderRequest);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateOrderRequest(
+            [FromBody] OrderRequestDto orderRequestCreate)
+        {
+            if (orderRequestCreate == null)
+            {
+                ModelState.AddModelError("", "it is null");
+                return BadRequest(ModelState);
+            }
+              
+
+            // TODO: implement check for the same existing order request
+
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "it is not valid");
+                return BadRequest(ModelState);
+            }
+
+            var orderRequestMap = _mapper.Map<OrderRequest>(orderRequestCreate);
+
+            if (!_orderRequestRepository.CreateOrderRequest(orderRequestMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
+        }
     }
 }
 
