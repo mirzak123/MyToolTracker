@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using MyToolTrackerAPI.Repository;
 
 namespace MyToolTrackerAPI.Controllers
 {
@@ -50,6 +51,38 @@ namespace MyToolTrackerAPI.Controllers
 
 			return Ok(project);
 		}
-	}
+
+		[HttpPost]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(400)]
+        public IActionResult CreateProject([FromBody] ProjectDto projectCreate)
+        {
+            if (projectCreate == null)
+                return BadRequest(ModelState);
+
+            var project = _projectRepository.GetProjects()
+                .Where(e => e.ContractNumber.Trim().ToUpper() ==
+                projectCreate.ContractNumber.Trim().ToUpper()).FirstOrDefault();
+
+            if (project != null)
+            {
+                ModelState.AddModelError("", "Project already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var projectMap = _mapper.Map<Project>(projectCreate);
+
+            if (!_projectRepository.CreateProject(projectMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
+        }
+    }
 }
 

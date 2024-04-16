@@ -8,6 +8,8 @@ namespace MyToolTrackerAPI.Interfaces
 		ICollection<Project> GetProjects();
 		Project GetProject(int id);
 		bool ProjectExists(int id);
+		bool CreateProject(Project project);
+		bool Save();
 	}
 }
 
