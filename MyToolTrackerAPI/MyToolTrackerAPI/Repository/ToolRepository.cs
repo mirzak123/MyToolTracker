@@ -5,7 +5,7 @@ using MyToolTrackerAPI.Models;
 
 namespace MyToolTrackerAPI.Repository
 {
-	public class ToolRepository : IToolRepository
+    public class ToolRepository : IToolRepository
 	{
         private readonly DataContext _context;
 
@@ -13,6 +13,12 @@ namespace MyToolTrackerAPI.Repository
 		{
             _context = context;
 		}
+
+        public bool CreateTool(Tool tool)
+        {
+            _context.Add(tool);
+            return Save();
+        }
 
         public Tool GetTool(int id)
         {
@@ -27,6 +33,12 @@ namespace MyToolTrackerAPI.Repository
         public ICollection<Tool> GetTools()
         {
             return _context.Tools.OrderBy(t => t.Id).ToList();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
 
         public bool ToolExists(int id)

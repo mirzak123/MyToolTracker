@@ -47,6 +47,38 @@ namespace MyToolTrackerAPI.Controllers
 
             return Ok(tool);
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateTool(ToolDto toolCreate)
+        {
+            if (toolCreate == null)
+                return BadRequest(ModelState);
+
+            var tool = _toolRepository.GetTools()
+                .Where(t => t.Barcode.Trim() ==
+                toolCreate.Barcode.Trim()).FirstOrDefault();
+
+            if (tool != null)
+            {
+                ModelState.AddModelError("", "Tool already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var toolMap = _mapper.Map<Tool>(toolCreate);
+
+            if (!_toolRepository.CreateTool(toolMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
+        }
     }
 }
 

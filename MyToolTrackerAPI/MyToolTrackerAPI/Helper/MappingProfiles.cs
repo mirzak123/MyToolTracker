@@ -25,6 +25,7 @@ namespace MyToolTrackerAPI.Helper
 			CreateMap<EmployeeDto, Employee>();
 			CreateMap<OrderRequestDto, OrderRequest>();
 			CreateMap<ProjectDto, Project>();
+			CreateMap<ToolDto, Tool>();
 
         }
     }
