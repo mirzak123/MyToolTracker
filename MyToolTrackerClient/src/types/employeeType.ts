@@ -1,5 +1,4 @@
-export enum EmployeeType {
-  FULL_TIME = 'Full-time',
-  PART_TIME = 'Part-time',
-  CONTRACT = 'Contract',
+export interface EmployeeType {
+  id: number;
+  name: string;
 }

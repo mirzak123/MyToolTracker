@@ -1,5 +1,3 @@
-import { EmployeeType } from './employeeType';
-
 export interface Employee {
   id: number;
   firstName: string;
@@ -7,5 +5,5 @@ export interface Employee {
   jmbg: string;
   idCardNumber: string;
   contactNumber: string;
-  type: EmployeeType;   // will be changed to fetch from the server
+  employeeTypeId: number;
 }
