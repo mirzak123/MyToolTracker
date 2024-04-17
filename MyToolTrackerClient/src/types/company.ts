@@ -1,5 +1,3 @@
-import { CompanyType } from './companyType';
-
 export interface Company {
   id: number;
   name: string;
@@ -8,5 +6,5 @@ export interface Company {
   contactPerson: string;
   contactPersonPhoneNumber: string;
   email: string;
-  type: CompanyType;
+  companyTypeId: number;
 }

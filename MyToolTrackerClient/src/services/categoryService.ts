@@ -1,4 +1,5 @@
 import { Category } from '@/types/category';
+import { BASE_URL } from '../../constants';
 
 export interface ICategoryService {
   getCategories(): Promise<Category[]>;
@@ -20,22 +21,13 @@ const categories: Category[] = [
 
 export class CategoryService implements ICategoryService {
   public async getCategories(): Promise<Category[]> {
-    // const response = await fetch('/api/categories');
-    // return await response.json();
-
-    return new Promise((resolve) => {
-      resolve(categories);
-    });
+    const response = await fetch(`${BASE_URL}/api/Categories`);
+    return await response.json();
   }
 
   public async getCategory(id: number): Promise<Category> {
-    // const response = await fetch(`/api/categories/${id}`);
-    // return await response.json();
-
-    return new Promise((resolve) => {
-      const category = categories.find((c) => c.id === id);
-      resolve(category as Category);
-    });
+    const response = await fetch(`${BASE_URL}/api/Categories/${id}`);
+    return await response.json();
   }
 
   public async createCategory(category: Category): Promise<Category> {
