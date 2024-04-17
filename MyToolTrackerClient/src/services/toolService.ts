@@ -1,5 +1,6 @@
 import { Tool } from '@/types/tool';
 import { ToolStatus } from '@/types/toolStatus';
+import { BASE_URL } from '../../constants';
 
 export interface IToolService {
   getTools(): Promise<Tool[]>;
@@ -7,6 +8,7 @@ export interface IToolService {
   createTool(tool: Tool): Promise<void>;
   updateTool(tool: Tool): Promise<void>;
   deleteTool(id: number): Promise<void>;
+  getToolStatuses(): Promise<ToolStatus[]>;
 }
 
 // Dummy data
@@ -21,7 +23,7 @@ const tools: Tool[] = [
     manufacturer: 'Manufacturer 1',
     categoryId: 1,
     orderRequestId: 1,
-    status: ToolStatus.AVAILABLE,
+    toolStatusId: 1,
   },
   {
     id: 2,
@@ -33,42 +35,28 @@ const tools: Tool[] = [
     manufacturer: 'Manufacturer 2',
     categoryId: 2,
     orderRequestId: 2,
-    status: ToolStatus.RESERVED,
+    toolStatusId: 2,
   },
 ];
 
 export class ToolService implements IToolService {
   async getTools(): Promise<Tool[]> {
-    // const response = await fetch('/api/tools');
-    // return await response.json();
-
-    return new Promise((resolve) => {
-      resolve(tools);
-    });
+    const response = await fetch(`${BASE_URL}/api/Tools`);
+    return await response.json();
   }
 
   async getTool(id: number): Promise<Tool> {
-    // const response = await fetch(`/api/tools/${id}`);
-    // return await response.json();
-
-    return new Promise((resolve) => {
-      const tool = tools.find((t) => t.id === id);
-      resolve(tool as Tool);
-    });
+    const response = await fetch(`${BASE_URL}/api/Tools/${id}`);
+    return await response.json();
   }
 
   async createTool(tool: Tool): Promise<void> {
-    // await fetch('/api/tools', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(tool),
-    // });
-
-    return new Promise((resolve) => {
-      tools.push(tool);
-      resolve();
+    await fetch(`${BASE_URL}/api/Tools`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tool),
     });
   }
 
@@ -98,5 +86,10 @@ export class ToolService implements IToolService {
       tools.splice(index, 1);
       resolve();
     });
+  }
+
+  async getToolStatuses(): Promise<ToolStatus[]> {
+    const response = await fetch(`${BASE_URL}/api/ToolStatuses`);
+    return await response.json();
   }
 }

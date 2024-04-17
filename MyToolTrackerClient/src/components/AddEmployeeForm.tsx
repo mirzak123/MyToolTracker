@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -30,6 +30,7 @@ const schema = z.object({
 
 const AddEmployeeForm = () => {
   const [employeeTypes, setEmployeeTypes] = useState<EmployeeType[]>([]);
+  const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
 
   useEffect(() => {
     employeeService.getEmployeeTypes().then((data) => {
@@ -40,6 +41,7 @@ const AddEmployeeForm = () => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<Employee>({
     defaultValues: {
@@ -53,11 +55,13 @@ const AddEmployeeForm = () => {
     resolver: zodResolver(schema),
   })
 
-  const onSubmit = async (employee: Employee) => {
+  const onSubmit: SubmitHandler<Employee> = async (employee: Employee) => {
     try {
       await employeeService.createEmployee(employee);
     } catch (error) {
-      console.error(error);
+      setError("root", {
+        message: "An unexpected error occurred. Please try again.",
+      });
     }
   }
 
@@ -102,6 +106,8 @@ const AddEmployeeForm = () => {
         <InputLabel id="type">Employee Type</InputLabel>
         <Select
           {...register('employeeTypeId')}
+          value={selectedEmployeeType || ''}
+          onChange={(e) => setSelectedEmployeeType(e.target.value as number)}
           label="Employee Type"
           labelId="type"
           error={errors.employeeTypeId ? true : false}
@@ -123,6 +129,7 @@ const AddEmployeeForm = () => {
           { isSubmitting ? <CircularProgress color="secondary" /> : "Add Employee" }
         </Button>
       </Box>
+      { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
     </form>
   )
 }

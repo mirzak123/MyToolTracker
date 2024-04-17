@@ -1,9 +1,6 @@
 'use client'
 
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import CircularProgress from '@mui/material/CircularProgress';
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -13,18 +10,39 @@ import { ToolStatus } from '@/types/toolStatus'
 import CategorySelect from '@/components/CategorySelect';
 import { ToolService } from '@/services/toolService';
 
+import {
+  TextField,
+  Button,
+  Box,
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+
 const toolService = new ToolService();
 
 const schema = z.object({
-  name: z.string().min(3).max(25),
+  name: z.string().min(3).max(100),
   barcode: z.string().length(12).regex(/^\d+$/),
   price: z.number().min(0),
   category: z.number(),
   model: z.string(),
   manufacturer: z.string(),
+  toolStatusId: z.number().min(1),
 });
 
 const AddToolForm = () => {
+  const [toolStatuses, setToolStatuses] = useState<ToolStatus[]>([]);
+  const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
+
+  useEffect(() => {
+    toolService.getToolStatuses().then((data) => {
+      setToolStatuses(data);
+    });
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -41,20 +59,10 @@ const AddToolForm = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<Tool> = async (data) => {
+  const onSubmit: SubmitHandler<Tool> = async (tool: Tool) => {
     try {
-      // Simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Create a new tool
-      const tool: Tool = {
-        ...data,
-        status: ToolStatus.AVAILABLE,
-        id: Math.floor(Math.random() * 1000),
-        entryDate: new Date(),
-        orderRequestId: 9,
-      }
-      // Call the service to create the tool
       await toolService.createTool(tool);
+      console.log(tool)
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",
@@ -110,6 +118,22 @@ const AddToolForm = () => {
         fullWidth
       />
       <CategorySelect formState={{ register, errors }}/>
+      <FormControl fullWidth margin="normal">
+        <InputLabel id="type">Tool Status</InputLabel>
+        <Select
+          {...register('toolStatusId')}
+          value={selectedToolStatus || ''}
+          onChange={(e) => setSelectedToolStatus(e.target.value as number)}
+          label="Tool Status"
+          labelId="type"
+          error={errors.toolStatusId ? true : false}
+          fullWidth
+        >
+          { toolStatuses.map((type) => (
+            <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>
+          ))}
+        </Select>
+      </FormControl>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           disabled={isSubmitting}

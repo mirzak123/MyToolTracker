@@ -30,7 +30,6 @@ const CategorySelect: React.FC<Props> = ({ formState: { register, errors }}) => 
         // Fetch categories
         const categories = await categoryService.getCategories();
         setCategories(categories);
-
       } catch (error) {
         console.error(error);
       }

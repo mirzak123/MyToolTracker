@@ -1,6 +1,4 @@
-export enum ToolStatus {
-  AVAILABLE = 'AVAILABLE',
-  RESERVED = 'RESERVED',
-  BROKEN = 'BROKEN',
-  LOST = 'LOST',
+export interface ToolStatus {
+  id: number;
+  name: string;
 }

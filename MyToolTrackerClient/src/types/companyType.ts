@@ -1,5 +1,4 @@
-export enum CompanyType {
-  CLIENT = 'CLIENT',
-  SUPPLIER = 'SUPPLIER',
-  PARTNER = 'PARTNER'
+export interface CompanyType {
+  id: number;
+  name: string;
 }
