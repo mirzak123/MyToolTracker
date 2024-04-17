@@ -24,7 +24,7 @@ import {
 const toolService = new ToolService();
 
 const schema = z.object({
-  name: z.string().min(3).max(25),
+  name: z.string().min(3).max(100),
   barcode: z.string().length(12).regex(/^\d+$/),
   price: z.number().min(0),
   category: z.number(),
@@ -62,6 +62,7 @@ const AddToolForm = () => {
   const onSubmit: SubmitHandler<Tool> = async (tool: Tool) => {
     try {
       await toolService.createTool(tool);
+      console.log(tool)
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",

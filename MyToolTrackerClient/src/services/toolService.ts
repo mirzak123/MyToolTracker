@@ -51,17 +51,12 @@ export class ToolService implements IToolService {
   }
 
   async createTool(tool: Tool): Promise<void> {
-    // await fetch('/api/tools', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(tool),
-    // });
-
-    return new Promise((resolve) => {
-      tools.push(tool);
-      resolve();
+    await fetch(`${BASE_URL}/api/Tools`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tool),
     });
   }
 
