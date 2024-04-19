@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
@@ -55,6 +56,8 @@ namespace MyToolTrackerAPI.Controllers
         {
             if (toolCreate == null)
                 return BadRequest(ModelState);
+
+            toolCreate.EntryDate = DateTime.Now;
 
             var tool = _toolRepository.GetTools()
                 .Where(t => t.Barcode.Trim() ==

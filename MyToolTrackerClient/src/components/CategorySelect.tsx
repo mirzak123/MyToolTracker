@@ -22,7 +22,7 @@ const categoryService = new CategoryService();
 
 const CategorySelect: React.FC<Props> = ({ formState: { register, errors }}) => {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -48,29 +48,28 @@ const CategorySelect: React.FC<Props> = ({ formState: { register, errors }}) => 
   return (
     <FormControl margin="normal" sx={{ minWidth: 120, width: '100%' }}>
       <InputLabel
-        sx={{ color: errors.category ? 'red' : '' }}
+        sx={{ color: errors.categoryId ? 'red' : '' }}
         id="select-cagegory-label"
       >
         Category
       </InputLabel>
       <Select
-        {...register('category')}
-        value={selectedCategory || ''}
-        onChange={(e) => setSelectedCategory(e.target.value as number)}
+        {...register('categoryId')}
+        value={selectedCategoryId || ''}
+        onChange={(e) => setSelectedCategoryId(e.target.value as number)}
         labelId="select-cagegory-label"
         id="category"
-        name="category"
         label="Category"
-        error={errors.category ? true : false}
+        error={errors.categoryId ? true : false}
       >
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
         { categoryItems }
       </Select>
-      {errors.category && (
+      {errors.categoryId && (
         <FormHelperText sx={{ color: 'red' }}>
-          {errors.category.message}
+          {errors.categoryId.message}
         </FormHelperText>
       )}
 
