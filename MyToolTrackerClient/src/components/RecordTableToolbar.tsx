@@ -13,7 +13,7 @@ const RecordTableToolbar = ({
   recordType,
 }: Props) => {
 
-  const handleOpenAddEmployeeDialog = () => {
+  const handleOpenDialog = () => {
     setOpen(true);
   }
 
@@ -24,7 +24,7 @@ const RecordTableToolbar = ({
       <Button color="primary" onClick={handleDeleteSelected}>
         Delete
       </Button>
-      <Button variant="contained" color="primary" onClick={handleOpenAddEmployeeDialog}>
+      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
         Add {recordType}
       </Button>
     </Box>
