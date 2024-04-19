@@ -4,11 +4,13 @@ import Button from '@mui/material/Button';
 export interface Props {
   setOpen: (value: boolean) => void;
   handleDeleteSelected: () => void;
+  recordType: string;
 }
 
 const RecordTableToolbar = ({
   setOpen,
   handleDeleteSelected,
+  recordType,
 }: Props) => {
 
   const handleOpenAddEmployeeDialog = () => {
@@ -23,7 +25,7 @@ const RecordTableToolbar = ({
         Delete
       </Button>
       <Button variant="contained" color="primary" onClick={handleOpenAddEmployeeDialog}>
-        Add Employee
+        Add {recordType}
       </Button>
     </Box>
   )

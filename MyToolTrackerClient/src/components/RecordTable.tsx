@@ -17,6 +17,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
   onDelete,
   fetchData,
   addRecordForm,
+  recordType,
 }) => {
   // State to keep track of the dialog open state
   const [open, setOpen] = React.useState(false);
@@ -44,6 +45,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
       <RecordTableToolbar
         setOpen={setOpen}
         handleDeleteSelected={handleDeleteSelected}
+        recordType={recordType}
       />
       <DataGrid
         rows={records}
@@ -64,6 +66,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
         open={open}
         handleClose={handleClose}
         addRecordForm={addRecordForm}
+        recordType={recordType}
       />
     </Box>
   );

@@ -11,6 +11,7 @@ import PlusIcon from '@mui/icons-material/Add';
 import EngineeringIcon from '@mui/icons-material/Engineering';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import PeopleIcon from '@mui/icons-material/People';
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 const drawerWidth = 240;
 
@@ -38,6 +39,14 @@ export default function Sidebar() {
               <PlusIcon color="primary" />
             </ListItemIcon>
               <ListItemText primary="Add Tool" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="Tools" disablePadding>
+          <ListItemButton href="/tools">
+            <ListItemIcon>
+              <ConstructionIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Tools" />
           </ListItemButton>
         </ListItem>
       </List>

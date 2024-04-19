@@ -14,4 +14,5 @@ export type RecordTableProps = {
   onDelete: (id: number) => void;
   fetchData: () => void;
   addRecordForm: ReactElement;
+  recordType: string;
 }

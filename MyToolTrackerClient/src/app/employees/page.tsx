@@ -17,7 +17,7 @@ const columns: GridColDef[] = [
   { field: 'lastName', headerName: 'Last name', width: 130 },
   { field: 'jmbg', headerName: 'JMBG', width: 130 },
   { field: 'contactNumber', headerName: 'Contact Number', sortable: false, width: 130 },
-  { field: 'type', headerName: 'Type', width: 130 },
+  { field: 'employeeType', headerName: 'Type', width: 130 },
   {
     field: 'fullName',
     headerName: 'Full name',
@@ -31,14 +31,30 @@ const columns: GridColDef[] = [
 // Create an instance of the EmployeeService
 const employeeService = new EmployeeService();
 
+// Define an interface for Employee with employeeType
+interface EmployeeWithTypeName extends Employee {
+  employeeType: string;
+}
+
 const EmployeesPage = () => {
   // State to keep track of employees
-  const [employees, setEmployees] = React.useState<Employee[]>([]);
+  const [employees, setEmployees] = React.useState<EmployeeWithTypeName[]>([]);
 
   const fetchData = async () => {
     try {
       const data = await employeeService.getEmployees();
-      setEmployees(data);
+      const employeeTypes = await employeeService.getEmployeeTypes();
+
+      // Map employee type ids to employee type names
+      const employeesWithTypeName: EmployeeWithTypeName[] = data.map(employee => {
+        const employeeType = employeeTypes.find(type => type.id === employee.employeeTypeId);
+        return {
+          ...employee,
+          employeeType: employeeType?.name || '',
+        };
+      });
+
+      setEmployees(employeesWithTypeName);
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
@@ -58,6 +74,7 @@ const EmployeesPage = () => {
           onDelete={employeeService.deleteEmployee}
           fetchData={fetchData}
           addRecordForm={<AddEmployeeForm />}
+          recordType="Employee"
         />
       </Box>
     </main>

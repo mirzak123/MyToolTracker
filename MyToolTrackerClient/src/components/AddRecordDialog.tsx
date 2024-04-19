@@ -9,12 +9,14 @@ export interface Props {
   open: boolean;
   handleClose: () => void;
   addRecordForm: React.ReactElement;
+  recordType: string;
 }
 
 const FormDialog = ({
   open,
   handleClose,
   addRecordForm,
+  recordType,
 }: Props) => {
 
   return (
@@ -23,7 +25,7 @@ const FormDialog = ({
       open={open}
       scroll="paper"
     >
-      <DialogTitle textAlign="center" mt={2}>Add Employee</DialogTitle>
+      <DialogTitle textAlign="center" mt={2}>Add {recordType}</DialogTitle>
       <DialogContent sx={{ padding: '16px' }}>
         {addRecordForm}
       </DialogContent>
