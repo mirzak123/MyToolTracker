@@ -16,7 +16,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
   columns,
   onDelete,
   fetchData,
-  AddRecordForm,
+  addRecordForm,
 }) => {
   // State to keep track of the dialog open state
   const [open, setOpen] = React.useState(false);
@@ -63,7 +63,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
       <AddRecordDialog
         open={open}
         handleClose={handleClose}
-        AddRecordForm={AddRecordForm}
+        addRecordForm={addRecordForm}
       />
     </Box>
   );
