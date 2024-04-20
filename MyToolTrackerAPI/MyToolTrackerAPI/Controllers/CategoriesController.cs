@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using MyToolTrackerAPI.Repository;
 
 namespace MyToolTrackerAPI.Controllers
 {
@@ -86,6 +87,26 @@ namespace MyToolTrackerAPI.Controllers
 
 			return Ok("Successfully created");
         }
-	}
+
+        [HttpDelete("{categoryId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoryExists(categoryId))
+                return NotFound();
+
+            var categoryToDelete = _categoryRepository.GetCategory(categoryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+                ModelState.AddModelError("", "Something went wrong deleting category");
+
+            return NoContent();
+        }
+    }
 }
 

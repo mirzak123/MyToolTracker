@@ -10,6 +10,7 @@ namespace MyToolTrackerAPI.Interfaces
 		Category GetCategory(string name);
 		bool CategoryExists(int id);
 		bool CreateCategory(Category category);
+		bool DeleteCategory(Category category);
 		bool Save();
 	}
 }
