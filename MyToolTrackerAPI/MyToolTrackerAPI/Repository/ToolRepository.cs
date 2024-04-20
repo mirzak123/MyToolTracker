@@ -20,6 +20,12 @@ namespace MyToolTrackerAPI.Repository
             return Save();
         }
 
+        public bool DeleteTool(Tool tool)
+        {
+            _context.Remove(tool);
+            return Save();
+        }
+
         public Tool GetTool(int id)
         {
             return _context.Tools.Where(t => t.Id == id).FirstOrDefault();

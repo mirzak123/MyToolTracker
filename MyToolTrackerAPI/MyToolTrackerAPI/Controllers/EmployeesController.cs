@@ -83,7 +83,7 @@ namespace MyToolTrackerAPI.Controllers
 			return Ok("Successfully created");
 		}
 
-		[HttpDelete("employeeId")]
+		[HttpDelete("{employeeId}")]
 		[ProducesResponseType(400)]
 		[ProducesResponseType(204)]
 		[ProducesResponseType(404)]

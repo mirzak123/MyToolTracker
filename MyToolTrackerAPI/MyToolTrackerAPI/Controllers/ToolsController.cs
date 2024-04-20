@@ -82,6 +82,26 @@ namespace MyToolTrackerAPI.Controllers
 
             return Ok("Successfully created");
         }
+
+        [HttpDelete("{toolId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteTool(int toolId)
+        {
+            if (!_toolRepository.ToolExists(toolId))
+                return NotFound();
+
+            var toolToDelete = _toolRepository.GetTool(toolId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_toolRepository.DeleteTool(toolToDelete))
+                ModelState.AddModelError("", "Something went wrong deleting tool");
+
+            return NoContent();
+        }
     }
 }
 
