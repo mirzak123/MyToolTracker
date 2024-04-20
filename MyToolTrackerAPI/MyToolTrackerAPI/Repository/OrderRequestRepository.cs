@@ -47,6 +47,12 @@ namespace MyToolTrackerAPI.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateOrderRequest(OrderRequest orderRequest)
+        {
+            _context.Update(orderRequest);
+            return Save();
+        }
     }
 }
 

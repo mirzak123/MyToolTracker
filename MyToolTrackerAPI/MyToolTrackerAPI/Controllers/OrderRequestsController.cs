@@ -84,6 +84,36 @@ namespace MyToolTrackerAPI.Controllers
             return Ok("Successfully created");
         }
 
+        [HttpPut("{orderRequestId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult UpdateOrderRequest(int orderRequestId,
+            [FromBody] OrderRequestDto updatedOrderRequest)
+        {
+            if (updatedOrderRequest == null)
+                return BadRequest(ModelState);
+
+            if (orderRequestId != updatedOrderRequest.Id)
+                return BadRequest(ModelState);
+
+            if (!_orderRequestRepository.OrderRequestExists(orderRequestId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var orderRequstMap = _mapper.Map<OrderRequest>(updatedOrderRequest);
+
+            if (!_orderRequestRepository.UpdateOrderRequest(orderRequstMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating order request");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{orderRequestId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]

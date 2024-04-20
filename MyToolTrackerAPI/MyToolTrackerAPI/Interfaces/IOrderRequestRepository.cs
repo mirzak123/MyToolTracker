@@ -9,6 +9,7 @@ namespace MyToolTrackerAPI.Interfaces
 		OrderRequest GetOrderRequest(int id);
 		bool OrderRequestExists(int id);
 		bool CreateOrderRequest(OrderRequest orderRequest);
+		bool UpdateOrderRequest(OrderRequest orderRequest);
 		bool DeleteOrderRequest(OrderRequest orderRequest);
 		bool Save();
 	}
