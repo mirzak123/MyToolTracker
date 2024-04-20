@@ -51,6 +51,12 @@ namespace MyToolTrackerAPI.Repository
 			var saved = _context.SaveChanges();
 			return saved > 0 ? true : false;
         }
+
+        public bool UpdateCompany(Company company)
+        {
+			_context.Update(company);
+			return Save();
+        }
     }
 }
 
