@@ -83,6 +83,36 @@ namespace MyToolTrackerAPI.Controllers
 			return Ok("Successfully created");
 		}
 
+		[HttpPut("{employeeId}")]
+		[ProducesResponseType(400)]
+		[ProducesResponseType(404)]
+		[ProducesResponseType(204)]
+		public IActionResult UpdateEmployee(int employeeId,
+			[FromBody] EmployeeDto updatedEmployee)
+		{
+			if (updatedEmployee == null)
+				return BadRequest(ModelState);
+
+			if (employeeId != updatedEmployee.Id)
+				return BadRequest(ModelState);
+
+			if (!_employeeRepository.EmployeeExists(employeeId))
+				return NotFound();
+
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var employeeMap = _mapper.Map<Employee>(updatedEmployee);
+
+			if (!_employeeRepository.UpdateEmployee(employeeMap))
+			{
+				ModelState.AddModelError("", "Something went wrong updating employee");
+				return StatusCode(500, ModelState);
+			}
+
+			return NoContent();
+		}
+
 		[HttpDelete("{employeeId}")]
 		[ProducesResponseType(400)]
 		[ProducesResponseType(204)]
