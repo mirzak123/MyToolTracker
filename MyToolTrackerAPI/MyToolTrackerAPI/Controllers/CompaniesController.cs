@@ -85,6 +85,26 @@ namespace MyToolTrackerAPI.Controllers
 
             return Ok("Successfully created");
         }
+
+        [HttpDelete("{companyId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteCompany(int companyId)
+        {
+            if (!_companyRepository.CompanyExists(companyId))
+                return NotFound();
+
+            var companyToDelete = _companyRepository.GetCompany(companyId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_companyRepository.DeleteCompany(companyToDelete))
+                ModelState.AddModelError("", "Something went wrong deleting company");
+
+            return NoContent();
+        }
     }
 }
 

@@ -25,6 +25,12 @@ namespace MyToolTrackerAPI.Repository
 			return Save();
         }
 
+        public bool DeleteCompany(Company company)
+        {
+			_context.Remove(company);
+			return Save();
+        }
+
         public ICollection<Company> GetCompanies()
 		{
 			return _context.Companies.OrderBy(c => c.Id).ToList();
