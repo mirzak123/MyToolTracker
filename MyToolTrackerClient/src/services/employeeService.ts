@@ -8,6 +8,7 @@ export interface IEmployeeService {
   createEmployee(employee: Employee): Promise<void>;
   updateEmployee(employee: Employee): Promise<void>;
   deleteEmployee(id: number): Promise<void>;
+  getEmployeeTypes(): Promise<EmployeeType[]>;
 }
 
 export class EmployeeService implements IEmployeeService {
