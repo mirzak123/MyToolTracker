@@ -64,14 +64,8 @@ export class CategoryService implements ICategoryService {
   }
 
   public async deleteCategory(id: number): Promise<void> {
-    // await fetch(`/api/categories/${id}`, {
-    //   method: 'DELETE',
-    // });
-
-    return new Promise((resolve) => {
-      const index = categories.findIndex((c) => c.id === id);
-      categories.splice(index, 1);
-      resolve();
+    await fetch(`${BASE_URL}/api/Categories/${id}`, {
+      method: 'DELETE',
     });
   }
 }

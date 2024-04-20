@@ -28,16 +28,18 @@ const RecordTable: React.FC<RecordTableProps> = ({
     setOpen(false);
   }
 
-  const handleDeleteSelected = () => {
-    // TODO: Cast selectedIds to an array of numbers
-    // Cannot find a way to cast selectedIds to an array of numbers
-    // Right now it is of type GridRowSelectionModel
-    selectedIds.forEach((id: any) => {
-      onDelete(id);
-    });
+  const handleDeleteSelected = async () => {
+    try {
+      // TODO: Cast selectedIds to an array of numbers
+      // Cannot find a way to cast selectedIds to an array of numbers
+      // Right now it is of type GridRowSelectionModel
+      await Promise.all(selectedIds.map((id: any) => onDelete(id)));
 
-    setSelectedIds([]);
-    fetchData();
+      setSelectedIds([]);
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting records:', error);
+    }
   }
 
   return (

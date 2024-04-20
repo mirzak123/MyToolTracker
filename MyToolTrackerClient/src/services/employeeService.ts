@@ -59,9 +59,8 @@ export class EmployeeService implements IEmployeeService {
   }
 
   async deleteEmployee(id: number): Promise<void> {
-    return new Promise((resolve) => {
-      console.log(`Deleting employee with id ${id}`);
-      resolve();
+    await fetch(`${BASE_URL}/api/Employees/${id}`, {
+      method: 'DELETE',
     });
   }
 

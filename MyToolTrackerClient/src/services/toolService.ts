@@ -77,14 +77,8 @@ export class ToolService implements IToolService {
   }
 
   async deleteTool(id: number): Promise<void> {
-    // await fetch(`/api/tools/${id}`, {
-    //   method: 'DELETE',
-    // });
-
-    return new Promise((resolve) => {
-      const index = tools.findIndex((t) => t.id === id);
-      tools.splice(index, 1);
-      resolve();
+    await fetch(`${BASE_URL}/api/Tools/${id}`, {
+      method: 'DELETE',
     });
   }
 
