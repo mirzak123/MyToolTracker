@@ -11,6 +11,7 @@ namespace MyToolTrackerAPI.Interfaces
 		Employee GetEmployee(string jmbg);
 		bool EmployeeExists(int id);
 		bool CreateEmployee(Employee employee);
+		bool DeleteEmployee(Employee employee);
 		bool Save();
 	}
 }

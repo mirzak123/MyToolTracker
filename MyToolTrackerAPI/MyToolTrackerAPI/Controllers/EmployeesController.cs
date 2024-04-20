@@ -82,6 +82,26 @@ namespace MyToolTrackerAPI.Controllers
 
 			return Ok("Successfully created");
 		}
+
+		[HttpDelete("employeeId")]
+		[ProducesResponseType(400)]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(404)]
+		public IActionResult DeleteEmployee(int employeeId)
+		{
+			if (!_employeeRepository.EmployeeExists(employeeId))
+				return NotFound();
+
+			var employeeToDelete = _employeeRepository.GetEmployee(employeeId);
+
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			if (!_employeeRepository.DeleteEmployee(employeeToDelete))
+				ModelState.AddModelError("", "Something went wrong deleting employee");
+
+			return NoContent();
+		}
 	}
 }
 

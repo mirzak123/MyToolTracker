@@ -5,7 +5,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MyToolTrackerAPI.Repository
 {
-	public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
 	{
 		private readonly DataContext _context;
 
@@ -17,6 +17,12 @@ namespace MyToolTrackerAPI.Repository
         public bool CreateEmployee(Employee employee)
         {
             _context.Add(employee);
+            return Save();
+        }
+
+        public bool DeleteEmployee(Employee employee)
+        {
+            _context.Remove(employee);
             return Save();
         }
 
