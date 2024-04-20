@@ -10,6 +10,7 @@ namespace MyToolTrackerAPI.Interfaces
         Tool GetTool(string name);
         bool ToolExists(int id);
         bool CreateTool(Tool tool);
+        bool UpdateTool(Tool tool);
         bool DeleteTool(Tool tool);
         bool Save();
     }

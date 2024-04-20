@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using MyToolTrackerAPI.Repository;
 
 namespace MyToolTrackerAPI.Controllers
 {
@@ -81,6 +82,36 @@ namespace MyToolTrackerAPI.Controllers
             }
 
             return Ok("Successfully created");
+        }
+
+        [HttpPut("{toolId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult UpdateTool(int toolId,
+            [FromBody] ToolDto updatedTool)
+        {
+            if (updatedTool == null)
+                return BadRequest(ModelState);
+
+            if (toolId != updatedTool.Id)
+                return BadRequest(ModelState);
+
+            if (!_toolRepository.ToolExists(toolId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var toolMap = _mapper.Map<Tool>(updatedTool);
+
+            if (!_toolRepository.UpdateTool(toolMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating tool");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{toolId}")]

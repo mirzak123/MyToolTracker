@@ -51,6 +51,12 @@ namespace MyToolTrackerAPI.Repository
         {
             return _context.Tools.Any(t => t.Id == id);
         }
+
+        public bool UpdateTool(Tool tool)
+        {
+            _context.Update(tool);
+            return Save();
+        }
     }
 }
 
