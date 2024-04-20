@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using MyToolTrackerAPI.Repository;
 
 namespace MyToolTrackerAPI.Controllers
 {
@@ -81,6 +82,26 @@ namespace MyToolTrackerAPI.Controllers
             }
 
             return Ok("Successfully created");
+        }
+
+        [HttpDelete("{orderRequestId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteOrderRequest(int orderRequestId)
+        {
+            if (!_orderRequestRepository.OrderRequestExists(orderRequestId))
+                return NotFound();
+
+            var orderRequestToDelete = _orderRequestRepository.GetOrderRequest(orderRequestId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_orderRequestRepository.DeleteOrderRequest(orderRequestToDelete))
+                ModelState.AddModelError("", "Something went wrong deleting order request");
+
+            return NoContent();
         }
     }
 }

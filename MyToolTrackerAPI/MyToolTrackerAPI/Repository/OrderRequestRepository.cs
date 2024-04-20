@@ -20,6 +20,12 @@ namespace MyToolTrackerAPI.Repository
             return Save();
         }
 
+        public bool DeleteOrderRequest(OrderRequest orderRequest)
+        {
+            _context.Remove(orderRequest);
+            return Save();
+        }
+
         public OrderRequest GetOrderRequest(int id)
         {
             return _context.OrderRequests.Where(or => or.Id == id)
