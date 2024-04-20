@@ -11,34 +11,6 @@ export interface IToolService {
   getToolStatuses(): Promise<ToolStatus[]>;
 }
 
-// Dummy data
-const tools: Tool[] = [
-  {
-    id: 1,
-    barcode: '123456789012',
-    name: 'Tool 1',
-    price: 100,
-    entryDate: new Date(),
-    model: 'Model 1',
-    manufacturer: 'Manufacturer 1',
-    categoryId: 1,
-    orderRequestId: 1,
-    toolStatusId: 1,
-  },
-  {
-    id: 2,
-    barcode: '123456789019',
-    name: 'Tool 2',
-    price: 200,
-    entryDate: new Date(),
-    model: 'Model 2',
-    manufacturer: 'Manufacturer 2',
-    categoryId: 2,
-    orderRequestId: 2,
-    toolStatusId: 2,
-  },
-];
-
 export class ToolService implements IToolService {
   async getTools(): Promise<Tool[]> {
     const response = await fetch(`${BASE_URL}/api/Tools`);
@@ -61,18 +33,12 @@ export class ToolService implements IToolService {
   }
 
   async updateTool(tool: Tool): Promise<void> {
-    // await fetch(`/api/tools/${tool.id}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(tool),
-    // });
-
-    return new Promise((resolve) => {
-      const index = tools.findIndex((t) => t.id === tool.id);
-      tools[index] = tool;
-      resolve();
+    await fetch(`${BASE_URL}/api/Tools/${tool.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(tool),
     });
   }
 
