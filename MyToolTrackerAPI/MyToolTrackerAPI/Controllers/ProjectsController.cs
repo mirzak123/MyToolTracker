@@ -83,6 +83,26 @@ namespace MyToolTrackerAPI.Controllers
 
             return Ok("Successfully created");
         }
+
+        [HttpDelete("{projectId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult DeleteProject(int projectId)
+        {
+            if (!_projectRepository.ProjectExists(projectId))
+                return NotFound();
+
+            var projectToDelete = _projectRepository.GetProject(projectId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_projectRepository.DeleteProject(projectToDelete))
+                ModelState.AddModelError("", "Something went wrong deleting project");
+
+            return NoContent();
+        }
     }
 }
 

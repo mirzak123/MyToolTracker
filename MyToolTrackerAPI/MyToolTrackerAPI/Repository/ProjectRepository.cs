@@ -20,6 +20,12 @@ namespace MyToolTrackerAPI.Repository
             return Save();
         }
 
+        public bool DeleteProject(Project project)
+        {
+            _context.Remove(project);
+            return Save();
+        }
+
         public Project GetProject(int id)
         {
             return _context.Projects.Where(p => p.Id == id).FirstOrDefault();
