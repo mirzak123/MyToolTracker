@@ -84,6 +84,36 @@ namespace MyToolTrackerAPI.Controllers
             return Ok("Successfully created");
         }
 
+        [HttpPut("{projectId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        public IActionResult UpdateProject(int projectId,
+            [FromBody] ProjectDto updatedProject)
+        {
+            if (updatedProject == null)
+                return BadRequest(ModelState);
+
+            if (projectId != updatedProject.Id)
+                return BadRequest(ModelState);
+
+            if (!_projectRepository.ProjectExists(projectId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var projectMap = _mapper.Map<Project>(updatedProject);
+
+            if (!_projectRepository.UpdateProject(projectMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating project");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{projectId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
