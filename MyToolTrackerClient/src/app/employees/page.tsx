@@ -73,7 +73,7 @@ const EmployeesPage = () => {
           columns={columns}
           onDelete={employeeService.deleteEmployee}
           fetchData={fetchData}
-          addRecordForm={<AddEmployeeForm />}
+          addRecordForm={<AddEmployeeForm fetchData={fetchData} />}
           recordType="Employee"
         />
       </Box>

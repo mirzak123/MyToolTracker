@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Employee } from "@/types/employee";
 import { EmployeeType } from "@/types/employeeType";
 import { EmployeeService } from "@/services/employeeService";
+import { FormProps } from "@/types/FormProps";
 import {
   TextField,
   Button,
@@ -28,7 +29,9 @@ const schema = z.object({
   employeeTypeId: z.number().min(1),
 });
 
-const AddEmployeeForm = () => {
+const AddEmployeeForm: React.FC<FormProps> = ({
+  fetchData,
+}) => {
   const [employeeTypes, setEmployeeTypes] = useState<EmployeeType[]>([]);
   const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
 
@@ -58,6 +61,10 @@ const AddEmployeeForm = () => {
   const onSubmit: SubmitHandler<Employee> = async (employee: Employee) => {
     try {
       await employeeService.createEmployee(employee);
+
+      if (fetchData !== undefined) {
+        fetchData();
+      }
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",

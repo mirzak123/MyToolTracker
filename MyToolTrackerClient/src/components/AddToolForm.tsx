@@ -7,8 +7,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Tool } from '@/types/tool'
 import { ToolStatus } from '@/types/toolStatus'
-import CategorySelect from '@/components/CategorySelect';
 import { ToolService } from '@/services/toolService';
+import CategorySelect from '@/components/CategorySelect';
+import { FormProps } from '@/types/FormProps';
 
 import {
   TextField,
@@ -33,7 +34,9 @@ const schema = z.object({
   toolStatusId: z.number().min(1),
 });
 
-const AddToolForm = () => {
+const AddToolForm: React.FC<FormProps> = ({
+  fetchData,
+}) => {
   const [toolStatuses, setToolStatuses] = useState<ToolStatus[]>([]);
   const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
 
@@ -62,6 +65,9 @@ const AddToolForm = () => {
   const onSubmit: SubmitHandler<Tool> = async (tool: Tool) => {
     try {
       await toolService.createTool(tool);
+      if (fetchData !== undefined) {
+        fetchData();
+      }
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",

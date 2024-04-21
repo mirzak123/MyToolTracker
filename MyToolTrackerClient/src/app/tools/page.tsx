@@ -73,7 +73,7 @@ const ToolsPage = () => {
           columns={columns}
           onDelete={toolService.deleteTool}
           fetchData={fetchData}
-          addRecordForm={<AddToolForm />}
+          addRecordForm={<AddToolForm fetchData={fetchData} />}
           recordType="Tool"
         />
       </Box>
