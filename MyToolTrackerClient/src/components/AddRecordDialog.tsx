@@ -12,12 +12,12 @@ export interface Props {
   recordType: string;
 }
 
-const FormDialog = ({
+const FormDialog: React.FC<Props> = ({
   open,
   handleClose,
   addRecordForm,
   recordType,
-}: Props) => {
+}) => {
 
   return (
     <Dialog
