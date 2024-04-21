@@ -45,6 +45,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<Employee>({
     defaultValues: {
@@ -61,10 +62,10 @@ const AddEmployeeForm: React.FC<FormProps> = ({
   const onSubmit: SubmitHandler<Employee> = async (employee: Employee) => {
     try {
       await employeeService.createEmployee(employee);
-
       if (fetchData !== undefined) {
         fetchData();
       }
+      reset();
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",

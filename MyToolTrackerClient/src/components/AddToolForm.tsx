@@ -50,6 +50,7 @@ const AddToolForm: React.FC<FormProps> = ({
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<Tool>({
     defaultValues: {
@@ -68,6 +69,7 @@ const AddToolForm: React.FC<FormProps> = ({
       if (fetchData !== undefined) {
         fetchData();
       }
+      reset();
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",
