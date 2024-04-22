@@ -33,6 +33,7 @@ const schema = z.object({
 
 const AddEmployeeForm: React.FC<FormProps> = ({
   fetchData,
+  defaultValues,
 }) => {
   const [employeeTypes, setEmployeeTypes] = useState<EmployeeType[]>([]);
   const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
@@ -52,14 +53,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({
     reset,
     formState: { errors, isSubmitting },
   } = useForm<Employee>({
-    defaultValues: {
-      firstName: "John",
-      lastName: "Doe",
-      idCardNumber: "1234567890",
-      jmbg: "1234567890123",
-      contactNumber: "123456789",
-      employeeTypeId: 1,
-    },
+    defaultValues: defaultValues,
     resolver: zodResolver(schema),
   })
 
