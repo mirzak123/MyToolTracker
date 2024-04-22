@@ -66,7 +66,12 @@ const AddToolForm: React.FC<FormProps> = ({
 
   const onSubmit: SubmitHandler<Tool> = async (tool: Tool) => {
     try {
-      await toolService.createTool(tool);
+      if (isUpdate) {
+        tool.id = defaultValues ? defaultValues?.id : 0;
+        await toolService.updateTool(tool);
+      } else {
+        await toolService.createTool(tool);
+      }
       if (fetchData !== undefined) {
         fetchData();
       }

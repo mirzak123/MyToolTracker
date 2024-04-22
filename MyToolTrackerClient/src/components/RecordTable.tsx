@@ -108,7 +108,8 @@ const RecordTable: React.FC<RecordTableProps> = ({
       />
       <ConfirmationDialog
         title="Delete Selected Records"
-        content={`Are you sure you want to delete the selected ${recordType.toLowerCase()}s?`}
+        content={`Are you sure you want to delete the selected (${selectedIds.length})
+${recordType.toLowerCase()}${selectedIds.length > 1 ? 's' : ''}?`}
         onConfirm={deleteSelected}
         onClose={handleCloseConfirm}
         open={openConfirm}

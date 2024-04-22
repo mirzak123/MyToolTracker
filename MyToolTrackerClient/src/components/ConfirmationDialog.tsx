@@ -18,7 +18,7 @@ const ConfirmationDialog: React.FC<Props> = ({
   onClose,
   onConfirm,
   title,
-  content
+  content,
 }) => {
   return (
     <Dialog
