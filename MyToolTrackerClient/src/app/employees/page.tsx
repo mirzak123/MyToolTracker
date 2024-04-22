@@ -73,7 +73,20 @@ const EmployeesPage = () => {
           columns={columns}
           onDelete={employeeService.deleteEmployee}
           fetchData={fetchData}
-          addRecordForm={<AddEmployeeForm fetchData={fetchData} />}
+          addRecordForm={<AddEmployeeForm fetchData={fetchData}
+            defaultValues={
+              {
+                id: 29,
+                firstName: 'Faruk',
+                lastName: 'Telarevic',
+                idCardNumber: '1234567890',
+                jmbg: '1234567890123',
+                contactNumber: '0612345678',
+                employeeTypeId: 2
+              }
+            }
+            isUpdate={true}
+          />}
           recordType="Employee"
         />
       </Box>

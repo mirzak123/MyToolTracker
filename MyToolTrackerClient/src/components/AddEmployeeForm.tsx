@@ -34,6 +34,7 @@ const schema = z.object({
 const AddEmployeeForm: React.FC<FormProps> = ({
   fetchData,
   defaultValues,
+  isUpdate,
 }) => {
   const [employeeTypes, setEmployeeTypes] = useState<EmployeeType[]>([]);
   const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
@@ -59,7 +60,13 @@ const AddEmployeeForm: React.FC<FormProps> = ({
 
   const onSubmit: SubmitHandler<Employee> = async (employee: Employee) => {
     try {
-      await employeeService.createEmployee(employee);
+      if (isUpdate) {
+        // Safe to assume defaultValues is not undefined if isUpdate is true
+        employee.id = defaultValues ? defaultValues.id : 0;
+        await employeeService.updateEmployee(employee);
+      } else {
+        await employeeService.createEmployee(employee);
+      }
       if (fetchData !== undefined) {
         fetchData();
       }
@@ -133,7 +140,8 @@ const AddEmployeeForm: React.FC<FormProps> = ({
           variant="contained"
           color="primary"
           fullWidth>
-          { isSubmitting ? <CircularProgress color="secondary" /> : "Add Employee" }
+          { isSubmitting ? <CircularProgress color="secondary" /> :
+            isUpdate ? "Update Employee" : "Add Employee" }
         </Button>
       </Box>
       { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
@@ -142,6 +150,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({
         isOpen={isSnackbarOpen}
         close={closeSnackbar}
         message="Employee added successfully!"
+        action="added"
       />
     </form>
   )

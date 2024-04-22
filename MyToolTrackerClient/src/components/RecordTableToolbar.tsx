@@ -24,9 +24,14 @@ const RecordTableToolbar = ({
       <Button color="primary" onClick={handleDeleteSelected}>
         Delete
       </Button>
-      <Button variant="contained" color="primary" onClick={handleOpenDialog}>
-        Add {recordType}
-      </Button>
+      <Box>
+        <Button sx={{ marginRight: 3 }} disabled variant="contained" color="primary" onClick={handleOpenDialog}>
+          Update {recordType}
+        </Button>
+        <Button variant="contained" color="primary" onClick={handleOpenDialog}>
+          Add {recordType}
+        </Button>
+      </Box>
     </Box>
   )
 };

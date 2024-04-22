@@ -6,4 +6,5 @@ type DefaultValues = Employee | Tool;
 export interface FormProps {
   fetchData?: () => void;
   defaultValues?: DefaultValues;
+  isUpdate?: boolean;
 }
