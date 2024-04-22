@@ -7,6 +7,8 @@ import { Employee } from "@/types/employee";
 import { EmployeeType } from "@/types/employeeType";
 import { EmployeeService } from "@/services/employeeService";
 import { FormProps } from "@/types/FormProps";
+import FormSuccessSnackbar from "@/components/FormSuccessSnackbar";
+import useOpenState from "@/hooks/useOpenState";
 import {
   TextField,
   Button,
@@ -34,6 +36,8 @@ const AddEmployeeForm: React.FC<FormProps> = ({
 }) => {
   const [employeeTypes, setEmployeeTypes] = useState<EmployeeType[]>([]);
   const [selectedEmployeeType, setSelectedEmployeeType] = useState<number | null>(null);
+  // Custom hook for snackbar
+  const { isOpen: isSnackbarOpen, open: openSnackbar, close: closeSnackbar } = useOpenState();
 
   useEffect(() => {
     employeeService.getEmployeeTypes().then((data) => {
@@ -66,6 +70,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({
         fetchData();
       }
       reset();
+      openSnackbar();
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",
@@ -138,6 +143,12 @@ const AddEmployeeForm: React.FC<FormProps> = ({
         </Button>
       </Box>
       { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
+
+      <FormSuccessSnackbar
+        isOpen={isSnackbarOpen}
+        close={closeSnackbar}
+        message="Employee added successfully!"
+      />
     </form>
   )
 }

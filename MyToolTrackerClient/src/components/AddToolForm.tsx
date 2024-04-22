@@ -10,6 +10,7 @@ import { ToolStatus } from '@/types/toolStatus'
 import { ToolService } from '@/services/toolService';
 import CategorySelect from '@/components/CategorySelect';
 import { FormProps } from '@/types/FormProps';
+import useOpenState from '@/hooks/useOpenState';
 
 import {
   TextField,
@@ -21,6 +22,7 @@ import {
   MenuItem,
   Select,
 } from "@mui/material";
+import FormSuccessSnackbar from './FormSuccessSnackbar';
 
 const toolService = new ToolService();
 
@@ -39,6 +41,9 @@ const AddToolForm: React.FC<FormProps> = ({
 }) => {
   const [toolStatuses, setToolStatuses] = useState<ToolStatus[]>([]);
   const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
+  
+  // Custom hook for snackbar
+  const { isOpen: isSnackbarOpen, open: openSnackbar, close: closeSnackbar } = useOpenState();
 
   useEffect(() => {
     toolService.getToolStatuses().then((data) => {
@@ -70,6 +75,7 @@ const AddToolForm: React.FC<FormProps> = ({
         fetchData();
       }
       reset();
+      openSnackbar();
     } catch (error) {
       setError("root", {
         message: "An unexpected error occurred. Please try again.",
@@ -152,6 +158,12 @@ const AddToolForm: React.FC<FormProps> = ({
         </Button>
       </Box>
       { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
+
+      <FormSuccessSnackbar
+        isOpen={isSnackbarOpen}
+        close={closeSnackbar}
+        message="Tool added successfully!"
+      />
     </form>
   )
 }
