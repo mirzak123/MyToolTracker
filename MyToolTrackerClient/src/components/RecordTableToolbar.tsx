@@ -3,22 +3,20 @@ import Button from '@mui/material/Button';
 import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 export interface Props {
-  setOpen: (value: boolean) => void;
+  handleOpenDialogAdd: (value: boolean) => void;
+  handleOpenDialogUpdate: (value: boolean) => void;
   handleDeleteSelected: () => void;
   recordType: string;
   selectedIds: GridRowSelectionModel;
 }
 
 const RecordTableToolbar = ({
-  setOpen,
+  handleOpenDialogAdd,
+  handleOpenDialogUpdate,
   handleDeleteSelected,
   recordType,
   selectedIds,
 }: Props) => {
-
-  const handleOpenDialog = () => {
-    setOpen(true);
-  }
 
   const isDeleteDisabled = selectedIds?.length === 0;
   const isUpdateDisabled = selectedIds?.length !== 1;
@@ -38,13 +36,13 @@ const RecordTableToolbar = ({
         <Button sx={{ marginRight: 3 }}
           disabled={isUpdateDisabled}
           variant="contained" color="primary"
-          onClick={handleOpenDialog}
+          onClick={handleOpenDialogUpdate}
         >
           Update {recordType}
         </Button>
         <Button
           variant="contained" color="primary"
-          onClick={handleOpenDialog}
+          onClick={handleOpenDialogAdd}
         >
           Add {recordType}
         </Button>

@@ -17,7 +17,6 @@ const RecordTable: React.FC<RecordTableProps> = ({
   columns,
   onDelete,
   fetchData,
-  recordForm,
   recordType,
 }) => {
   // State to keep track of the RecordDialog open state
@@ -26,6 +25,10 @@ const RecordTable: React.FC<RecordTableProps> = ({
   const [openConfirm, setOpenConfirm] = React.useState(false);
   // State to keep track of selected rows
   const [selectedIds, setSelectedIds] = React.useState<GridRowSelectionModel>([]);
+  // State to keep track of whether the dialog is for updating a record
+  const [isUpdate, setIsUpdate] = React.useState(false);
+  // State to keep track of default values for the dialog
+  const [defaultValues, setDefaultValues] = React.useState<any>();
 
   const handleCloseRecordDialog = () => {
     setOpenRecordDialog(false);
@@ -33,6 +36,17 @@ const RecordTable: React.FC<RecordTableProps> = ({
 
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
+  }
+
+  const handleOpenRecordDialogAdd = () => {
+    setIsUpdate(false);
+    setOpenRecordDialog(true);
+  }
+
+  const handleOpenRecordDialogUpdate = () => {
+    setIsUpdate(true);
+    setDefaultValues(records.find(record => record.id === selectedIds[0]));
+    setOpenRecordDialog(true);
   }
 
   // Delete selected records
@@ -58,10 +72,13 @@ const RecordTable: React.FC<RecordTableProps> = ({
     setOpenConfirm(true);
   }
 
+  console.log(records)
+
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <RecordTableToolbar
-        setOpen={setOpenRecordDialog}
+        handleOpenDialogAdd={handleOpenRecordDialogAdd}
+        handleOpenDialogUpdate={handleOpenRecordDialogUpdate}
         handleDeleteSelected={handleDeleteSelected}
         recordType={recordType}
         selectedIds={selectedIds}
@@ -84,8 +101,10 @@ const RecordTable: React.FC<RecordTableProps> = ({
       <RecordDialog
         open={openRecordDialog}
         handleClose={handleCloseRecordDialog}
-        recordForm={recordForm}
         recordType={recordType}
+        isUpdate={isUpdate}
+        defaultValues={defaultValues}
+        fetchData={fetchData}
       />
       <ConfirmationDialog
         title="Delete Selected Records"
