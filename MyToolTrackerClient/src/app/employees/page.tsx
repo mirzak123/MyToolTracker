@@ -73,7 +73,7 @@ const EmployeesPage = () => {
           columns={columns}
           onDelete={employeeService.deleteEmployee}
           fetchData={fetchData}
-          addRecordForm={<AddEmployeeForm fetchData={fetchData}
+          recordForm={<AddEmployeeForm fetchData={fetchData}
             defaultValues={
               {
                 id: 29,

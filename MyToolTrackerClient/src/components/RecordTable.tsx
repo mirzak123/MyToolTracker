@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 
 import { RecordTableProps } from '@/types/RecordTableProps';
 import RecordTableToolbar from '@/components/RecordTableToolbar';
-import AddRecordDialog from '@/components/AddRecordDialog';
+import RecordDialog from '@/components/RecordDialog';
 import ConfirmationDialog from '@/components/ConfirmationDialog';
 
 const RecordTable: React.FC<RecordTableProps> = ({
@@ -17,18 +17,18 @@ const RecordTable: React.FC<RecordTableProps> = ({
   columns,
   onDelete,
   fetchData,
-  addRecordForm,
+  recordForm,
   recordType,
 }) => {
-  // State to keep track of the AddRecordDialog open state
-  const [openAddRecord, setOpenAddRecord] = React.useState(false);
+  // State to keep track of the RecordDialog open state
+  const [openRecordDialog, setOpenRecordDialog] = React.useState(false);
   // State to keep track of the ConfirmationDialog open state
   const [openConfirm, setOpenConfirm] = React.useState(false);
   // State to keep track of selected rows
   const [selectedIds, setSelectedIds] = React.useState<GridRowSelectionModel>([]);
 
-  const handleCloseAddRecord = () => {
-    setOpenAddRecord(false);
+  const handleCloseRecordDialog = () => {
+    setOpenRecordDialog(false);
   }
 
   const handleCloseConfirm = () => {
@@ -61,9 +61,10 @@ const RecordTable: React.FC<RecordTableProps> = ({
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <RecordTableToolbar
-        setOpen={setOpenAddRecord}
+        setOpen={setOpenRecordDialog}
         handleDeleteSelected={handleDeleteSelected}
         recordType={recordType}
+        selectedIds={selectedIds}
       />
       <DataGrid
         rows={records}
@@ -80,10 +81,10 @@ const RecordTable: React.FC<RecordTableProps> = ({
         }}
         rowSelectionModel={selectedIds}
       />
-      <AddRecordDialog
-        open={openAddRecord}
-        handleClose={handleCloseAddRecord}
-        addRecordForm={addRecordForm}
+      <RecordDialog
+        open={openRecordDialog}
+        handleClose={handleCloseRecordDialog}
+        recordForm={recordForm}
         recordType={recordType}
       />
       <ConfirmationDialog

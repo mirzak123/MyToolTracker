@@ -149,8 +149,8 @@ const AddEmployeeForm: React.FC<FormProps> = ({
       <FormSuccessSnackbar
         isOpen={isSnackbarOpen}
         close={closeSnackbar}
-        message="Employee added successfully!"
-        action="added"
+        message={isUpdate ?
+        "Employee updated successfully!" : "Employee added successfully!"}
       />
     </form>
   )

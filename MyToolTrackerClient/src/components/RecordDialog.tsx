@@ -8,16 +8,26 @@ import Button from '@mui/material/Button';
 export interface Props {
   open: boolean;
   handleClose: () => void;
-  addRecordForm: React.ReactElement;
+  recordForm: React.ReactElement;
   recordType: string;
 }
 
-const FormDialog: React.FC<Props> = ({
+// action is either 'Add' or 'Update'
+const RecordDialog: React.FC<Props> = ({
   open,
   handleClose,
-  addRecordForm,
+  recordForm,
   recordType,
 }) => {
+
+  // Check if the form is for updating a record
+  const { isUpdate } = recordForm.props;
+
+  let action = 'Add';
+  if (isUpdate) {
+    // If the form is for updating a record, set the action to 'Update'
+    action = 'Update';
+  }
 
   return (
     <Dialog
@@ -25,9 +35,11 @@ const FormDialog: React.FC<Props> = ({
       open={open}
       scroll="paper"
     >
-      <DialogTitle textAlign="center" mt={2}>Add {recordType}</DialogTitle>
+      <DialogTitle textAlign="center" mt={2}>
+        {action} {recordType}
+      </DialogTitle>
       <DialogContent sx={{ padding: '16px' }}>
-        {addRecordForm}
+        {recordForm}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -36,4 +48,4 @@ const FormDialog: React.FC<Props> = ({
   );
 }
 
-export default FormDialog;
+export default RecordDialog;

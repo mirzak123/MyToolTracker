@@ -16,7 +16,7 @@ const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'name', headerName: 'Name', width: 250 },
   { field: 'price', headerName: 'Price', width: 130 },
-  { field: 'model', headerName: 'model', width: 130 },
+  { field: 'model', headerName: 'Model', width: 130 },
   { field: 'manufacturer', headerName: 'Manufacturer', width: 130 },
   { field: 'category', headerName: 'Category', width: 130 },
   { field: 'toolStatus', headerName: 'Tool Status', width: 130 },
@@ -73,7 +73,7 @@ const ToolsPage = () => {
           columns={columns}
           onDelete={toolService.deleteTool}
           fetchData={fetchData}
-          addRecordForm={<AddToolForm fetchData={fetchData} />}
+          recordForm={<AddToolForm isUpdate={true} fetchData={fetchData} />}
           recordType="Tool"
         />
       </Box>

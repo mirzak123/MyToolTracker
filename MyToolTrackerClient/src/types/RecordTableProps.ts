@@ -13,6 +13,6 @@ export type RecordTableProps = {
   columns: GridColDef[];
   onDelete: (id: number) => void;
   fetchData: () => void;
-  addRecordForm: ReactElement;
+  recordForm: ReactElement;
   recordType: string;
 }

@@ -38,6 +38,8 @@ const schema = z.object({
 
 const AddToolForm: React.FC<FormProps> = ({
   fetchData,
+  defaultValues,
+  isUpdate,
 }) => {
   const [toolStatuses, setToolStatuses] = useState<ToolStatus[]>([]);
   const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
@@ -58,13 +60,7 @@ const AddToolForm: React.FC<FormProps> = ({
     reset,
     formState: { errors, isSubmitting },
   } = useForm<Tool>({
-    defaultValues: {
-      name: "hammer",
-      barcode: "123456789012",
-      price: 10,
-      model: "model",
-      manufacturer: "manufacturer",
-    },
+    defaultValues: defaultValues,
     resolver: zodResolver(schema),
   });
 
@@ -154,7 +150,8 @@ const AddToolForm: React.FC<FormProps> = ({
           variant="contained"
           color="primary"
           fullWidth>
-          { isSubmitting ? <CircularProgress color="secondary" /> : "Add Tool" }
+          { isSubmitting ? <CircularProgress color="secondary" /> :
+            isUpdate ? "Update Tool" : "Add Tool" }
         </Button>
       </Box>
       { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
@@ -162,7 +159,9 @@ const AddToolForm: React.FC<FormProps> = ({
       <FormSuccessSnackbar
         isOpen={isSnackbarOpen}
         close={closeSnackbar}
-        message="Tool added successfully!"
+        message={isUpdate ?
+        "Tool updated successfully!" :
+        "Tool added successfully!"}
       />
     </form>
   )
