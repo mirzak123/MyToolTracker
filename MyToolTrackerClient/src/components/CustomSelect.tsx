@@ -26,8 +26,7 @@ const CustomSelect: React.FC<Props> = ({
   fieldName,
   label,
 }) => {
-
-  const menuItems = options.map((option, index) => {
+  const menuItems = options?.map((option, index) => {
     return (
       <MenuItem key={index} value={option.value}>
         {option.label}
