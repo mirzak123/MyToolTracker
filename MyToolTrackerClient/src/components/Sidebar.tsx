@@ -12,6 +12,8 @@ import EngineeringIcon from '@mui/icons-material/Engineering';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import PeopleIcon from '@mui/icons-material/People';
 import ConstructionIcon from '@mui/icons-material/Construction';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import ApartmentIcon from '@mui/icons-material/Apartment';
 
 const drawerWidth = 240;
 
@@ -77,6 +79,25 @@ export default function Sidebar() {
               <NoteAddIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="New Order Request" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem key="Add Company" disablePadding>
+          <ListItemButton href="/add-company">
+            <ListItemIcon>
+              <AddBusinessIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Add Company" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="Companies" disablePadding>
+          <ListItemButton href="/companies">
+            <ListItemIcon>
+              <ApartmentIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Companies" />
           </ListItemButton>
         </ListItem>
       </List>

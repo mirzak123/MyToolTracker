@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 // Forms
 import AddEmployeeForm from '@/components/AddEmployeeForm';
 import AddToolForm from '@/components/AddToolForm';
+import AddCompanyForm from '@/components/AddCompanyForm';
 
 export interface Props {
   open: boolean;
@@ -47,6 +48,14 @@ const RecordDialog: React.FC<Props> = ({
       case 'Tool':
         return (
           <AddToolForm
+            fetchData={fetchData}
+            defaultValues={defaultValues}
+            isUpdate={isUpdate}
+          />
+        );
+      case 'Company':
+        return (
+          <AddCompanyForm
             fetchData={fetchData}
             defaultValues={defaultValues}
             isUpdate={isUpdate}

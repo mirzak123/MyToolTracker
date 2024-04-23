@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react';
-import AddEmployeeForm from '@/components/AddEmployeeForm';
 import RecordTable from '@/components/RecordTable';
 import { EmployeeService } from '@/services/employeeService';
 import { Employee } from '@/types/employee';

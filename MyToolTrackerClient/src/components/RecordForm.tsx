@@ -33,10 +33,10 @@ import FormSuccessSnackbar from './FormSuccessSnackbar';
 
 interface FormProps<T> {
   schema: ZodTypeAny;
-  defaultValues: T;
+  defaultValues?: T;
   inputFields: Record<keyof T, { type: string, label: string }>;
-  fetchData: () => void;
-  isUpdate: boolean;
+  fetchData?: () => void;
+  isUpdate?: boolean;
   addRecord: (data: T) => Promise<void>;
   updateRecord: (data: T) => Promise<void>;
   options?: any;
@@ -90,10 +90,6 @@ const RecordForm: React.FC<FormProps<any>> = ({
         message: "An unexpected error occurred. Please try again.",
       });
     }
-  }
-
-  const capitalize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
   return (

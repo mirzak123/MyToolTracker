@@ -72,8 +72,6 @@ const RecordTable: React.FC<RecordTableProps> = ({
     setOpenConfirm(true);
   }
 
-  console.log(records)
-
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <RecordTableToolbar

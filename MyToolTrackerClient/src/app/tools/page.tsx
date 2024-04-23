@@ -1,7 +1,6 @@
 'use client'
 
 import * as React from 'react';
-import AddToolForm from '@/components/AddToolForm';
 import RecordTable from '@/components/RecordTable';
 import { ToolService } from '@/services/toolService';
 import { CategoryService } from '@/services/categoryService';
