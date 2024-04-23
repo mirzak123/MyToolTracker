@@ -7,8 +7,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Tool } from '@/types/tool'
 import { ToolStatus } from '@/types/toolStatus'
+import { Category } from '@/types/category'
 import { ToolService } from '@/services/toolService';
-import CategorySelect from '@/components/CategorySelect';
+import { CategoryService } from "@/services/categoryService";
+import CustomSelect from '@/components/CustomSelect';
 import { FormProps } from '@/types/FormProps';
 import useOpenState from '@/hooks/useOpenState';
 
@@ -17,20 +19,17 @@ import {
   Button,
   Box,
   CircularProgress,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
 } from "@mui/material";
 import FormSuccessSnackbar from './FormSuccessSnackbar';
 
 const toolService = new ToolService();
+const categoryService = new CategoryService();
 
 const schema = z.object({
   name: z.string().min(3).max(100),
   barcode: z.string().length(12).regex(/^\d+$/),
   price: z.number().min(0),
-  categoryId: z.number(),
+  categoryId: z.number().min(1),
   model: z.string(),
   manufacturer: z.string(),
   toolStatusId: z.number().min(1),
@@ -42,14 +41,19 @@ const AddToolForm: React.FC<FormProps> = ({
   isUpdate,
 }) => {
   const [toolStatuses, setToolStatuses] = useState<ToolStatus[]>([]);
-  const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  // const [selectedToolStatus, setSelectedToolStatus] = useState<number | null>(null);
   
   // Custom hook for snackbar
   const { isOpen: isSnackbarOpen, open: openSnackbar, close: closeSnackbar } = useOpenState();
 
   useEffect(() => {
-    toolService.getToolStatuses().then((data) => {
+    toolService.getToolStatuses().then((data: ToolStatus[]) => {
       setToolStatuses(data);
+    });
+
+    categoryService.getCategories().then((data: Category[]) => {
+      setCategories(data);
     });
   }, []);
 
@@ -130,8 +134,27 @@ const AddToolForm: React.FC<FormProps> = ({
         margin="normal"
         fullWidth
       />
-      <CategorySelect formState={{ register, errors }}/>
-      <FormControl fullWidth margin="normal">
+      <CustomSelect
+        formState={{ register, errors }}
+        options={categories.map((category) => ({
+          value: category.id,
+          label: category.name,
+        }))}
+        fieldName="categoryId"
+        label="Category"
+      />
+      { toolStatuses.length > 0 &&
+      <CustomSelect
+        formState={{ register, errors }}
+        options={toolStatuses.map((status) => ({
+          value: status.id,
+          label: status.name,
+        }))}
+        fieldName="toolStatusId"
+        label="Tool Status"
+      />
+      }
+      {/* <FormControl fullWidth margin="normal">
         <InputLabel id="type">Tool Status</InputLabel>
         <Select
           {...register('toolStatusId')}
@@ -147,6 +170,7 @@ const AddToolForm: React.FC<FormProps> = ({
           ))}
         </Select>
       </FormControl>
+      */}
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           disabled={isSubmitting}

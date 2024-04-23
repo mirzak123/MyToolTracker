@@ -8,6 +8,7 @@ import { EmployeeType } from "@/types/employeeType";
 import { EmployeeService } from "@/services/employeeService";
 import { FormProps } from "@/types/FormProps";
 import FormSuccessSnackbar from "@/components/FormSuccessSnackbar";
+import CustomSelect from "@/components/CustomSelect";
 import useOpenState from "@/hooks/useOpenState";
 import {
   TextField,
@@ -116,22 +117,12 @@ const AddEmployeeForm: React.FC<FormProps> = ({
         margin="normal"
         fullWidth
       />
-      <FormControl fullWidth margin="normal">
-        <InputLabel id="type">Employee Type</InputLabel>
-        <Select
-          {...register('employeeTypeId')}
-          value={selectedEmployeeType || ''}
-          onChange={(e) => setSelectedEmployeeType(e.target.value as number)}
-          label="Employee Type"
-          labelId="type"
-          error={errors.employeeTypeId ? true : false}
-          fullWidth
-        >
-          { employeeTypes.map((type) => (
-            <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+      <CustomSelect
+        formState={{ register, errors }}
+        options={employeeTypes.map((type) => ({ value: type.id, label: type.name }))}
+        fieldName='employeeTypeId'
+        label='Employee Type'
+      />
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button
           disabled={isSubmitting}
