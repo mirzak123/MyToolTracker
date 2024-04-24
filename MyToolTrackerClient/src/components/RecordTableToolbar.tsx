@@ -1,5 +1,8 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import {
+  Box,
+  Button,
+  Tooltip
+} from '@mui/material';
 import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 export interface Props {
@@ -25,21 +28,29 @@ const RecordTableToolbar = ({
     <Box
       sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}
     >
-      <Button
-        disabled={isDeleteDisabled}
-        color="primary"
-        onClick={handleDeleteSelected}
-      >
-        Delete
-      </Button>
+      <Tooltip title={isDeleteDisabled ? "Select at least one row" : ""} arrow>
+        <span> {/* span is recommended by Material-UI for tooltips to work in safari */}
+          <Button
+            disabled={isDeleteDisabled}
+            color="primary"
+            onClick={handleDeleteSelected}
+          >
+            Delete
+          </Button>
+        </span>
+      </Tooltip>
       <Box>
-        <Button sx={{ marginRight: 3 }}
-          disabled={isUpdateDisabled}
-          variant="contained" color="primary"
-          onClick={handleOpenDialogUpdate}
-        >
-          Update {recordType}
-        </Button>
+        <Tooltip title={isUpdateDisabled ? "Select exactly one row" : ""} arrow>
+          <span>
+            <Button sx={{ marginRight: 3 }}
+              disabled={isUpdateDisabled}
+              variant="contained" color="primary"
+              onClick={handleOpenDialogUpdate}
+            >
+              Update {recordType}
+            </Button>
+          </span>
+        </Tooltip>
         <Button
           variant="contained" color="primary"
           onClick={handleOpenDialogAdd}
