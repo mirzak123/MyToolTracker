@@ -130,7 +130,7 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Mirza Karic" src="/public/businessman-character-avatar.jpg" />
+                <Avatar alt="Mirza Karic" src="/businessman-character-avatar.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
