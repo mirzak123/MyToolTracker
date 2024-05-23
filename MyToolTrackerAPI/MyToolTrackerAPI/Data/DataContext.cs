@@ -1,9 +1,11 @@
 ﻿using MyToolTrackerAPI.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace MyToolTrackerAPI.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<AppUser>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -21,11 +23,35 @@ namespace MyToolTrackerAPI.Data
         public DbSet<CompanyType> CompanyTypes { get; set; }
         public DbSet<ToolStatus> ToolStatuses { get; set; }
 
+        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Tool>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,4)"); // 18 digits and 4 decimal places
+
+            base.OnModelCreating(modelBuilder);
+            List<IdentityRole> roles = new List<IdentityRole>
+            {
+
+                new IdentityRole
+                {
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+
+
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }
