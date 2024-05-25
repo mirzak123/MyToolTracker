@@ -5,6 +5,7 @@ using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
 using System;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace MyToolTrackerAPI.Controllers
@@ -100,5 +101,26 @@ namespace MyToolTrackerAPI.Controllers
                 });
         }
 
+
+        [HttpGet("checkauth")]
+        public IActionResult CheckAuth()
+        {
+            if (_userManager == null)
+            {
+                return BadRequest("User manager is null.");
+            }
+
+            var user = HttpContext.User;
+            if (user == null || user.Identity == null || !user.Identity.IsAuthenticated)
+            {
+                return Unauthorized();
+            }
+
+            
+            return Ok(new { Message = "User is authenticated"});
+        }
+
     }
 }
+
+
