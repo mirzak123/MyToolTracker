@@ -55,9 +55,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         password,
       });
 
-      const token = response.data.token;
-      localStorage.setItem("token", token as string);
-      setToken(token);
+      const newToken = response.data.token;
+      localStorage.setItem("token", newToken as string);
+      setToken(newToken);
     } catch (error) {
       console.error("Login error:", error);
       throw error;
@@ -70,9 +70,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(true);
     try {
       const response = await api.post("/api/account/register", userData);
-      const token = response.data.token;
-      localStorage.setItem("token", token as string);
-      setToken(token);
+      const newToken = response.data.token;
+      localStorage.setItem("token", newToken as string);
+      setToken(newToken);
     } catch (error) {
       console.error("Registration error:", error);
       throw error;

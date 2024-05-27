@@ -141,7 +141,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAnyOrigin");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -156,9 +156,6 @@ app.UseWhen(context => context.Request.Path.StartsWithSegments("/swagger"), appB
 });
 
 app.MapControllers();
-
-
-app.UseCors("AllowAnyOrigin");
 
 app.Run();
 

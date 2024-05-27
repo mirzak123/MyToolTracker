@@ -1,5 +1,5 @@
-import { OrderRequest } from '@/types/orderRequest';
-import { BASE_URL } from '../../constants';
+import { OrderRequest } from "@/types/orderRequest";
+import api from "@/config/axios";
 
 export interface IOrderRequestService {
   getOrderRequests(): Promise<OrderRequest[]>;
@@ -11,38 +11,24 @@ export interface IOrderRequestService {
 
 export class OrderRequestService implements IOrderRequestService {
   async getOrderRequests(): Promise<OrderRequest[]> {
-    const response = await fetch(`${BASE_URL}/api/OrderRequests`);
-    return response.json();
+    const response = await api.get("/api/OrderRequests");
+    return response.data;
   }
 
   async getOrderRequest(id: number): Promise<OrderRequest> {
-    const response = await fetch(`${BASE_URL}/api/OrderRequests/${id}`);
-    return response.json();
+    const response = await api.get(`/api/OrderRequests/${id}`);
+    return response.data;
   }
 
   async createOrderRequest(orderRequest: OrderRequest): Promise<void> {
-    await fetch(`${BASE_URL}/api/OrderRequests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(orderRequest),
-    });
+    await api.post("/api/OrderRequests", orderRequest);
   }
 
   async updateOrderRequest(orderRequest: OrderRequest): Promise<void> {
-    await fetch(`${BASE_URL}/api/OrderRequests/${orderRequest.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(orderRequest),
-    });
+    await api.put(`/api/OrderRequests/${orderRequest.id}`, orderRequest);
   }
 
   async deleteOrderRequest(id: string): Promise<void> {
-    await fetch(`${BASE_URL}/api/OrderRequests/${id}`, {
-      method: 'DELETE',
-    });
+    await api.delete(`/api/OrderRequests/${id}`);
   }
 }

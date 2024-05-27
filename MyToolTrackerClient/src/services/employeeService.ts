@@ -1,6 +1,6 @@
-import { Employee } from '@/types/employee';
-import { EmployeeType } from '@/types/employeeType';
-import { BASE_URL } from '../../constants';
+import { Employee } from "@/types/employee";
+import { EmployeeType } from "@/types/employeeType";
+import api from "@/config/axios";
 
 export interface IEmployeeService {
   getEmployees(): Promise<Employee[]>;
@@ -13,43 +13,29 @@ export interface IEmployeeService {
 
 export class EmployeeService implements IEmployeeService {
   async getEmployees(): Promise<Employee[]> {
-    const response = await fetch(`${BASE_URL}/api/Employees`);
-    return await response.json();
+    const response = await api.get("/api/Employees");
+    return response.data;
   }
 
   async getEmployee(id: number): Promise<Employee> {
-    const response = await fetch(`${BASE_URL}/api/Employees/${id}`);
-    return await response.json();
+    const response = await api.get(`/api/Employees/${id}`);
+    return response.data;
   }
 
   async createEmployee(employee: Employee): Promise<void> {
-    await fetch(`${BASE_URL}/api/Employees`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(employee),
-    });
+    await api.post("/api/Employees", employee);
   }
 
   async updateEmployee(employee: Employee): Promise<void> {
-    await fetch(`${BASE_URL}/api/Employees/${employee.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(employee),
-    });
+    await api.put(`/api/Employees/${employee.id}`, employee);
   }
 
   async deleteEmployee(id: number): Promise<void> {
-    await fetch(`${BASE_URL}/api/Employees/${id}`, {
-      method: 'DELETE',
-    });
+    await api.delete(`/api/Employees/${id}`);
   }
 
   async getEmployeeTypes(): Promise<EmployeeType[]> {
-    const response = await fetch(`${BASE_URL}/api/EmployeeTypes`);
-    return await response.json();
+    const response = await api.get("/api/EmployeeTypes");
+    return await response.data;
   }
 }
