@@ -1,5 +1,5 @@
-import { Project } from '@/types/project';
-import { BASE_URL } from '../../constants';
+import { Project } from "@/types/project";
+import api from "@/config/axios";
 
 export interface IProjectService {
   getProjects(): Promise<Project[]>;
@@ -11,38 +11,24 @@ export interface IProjectService {
 
 export class ProjectService implements IProjectService {
   public async getProjects(): Promise<Project[]> {
-    const response = await fetch(`${BASE_URL}/api/Projects`);
-    return await response.json();
+    const response = await api.get("/api/Projects");
+    return response.data;
   }
 
   public async getProject(id: number): Promise<Project> {
-    const response = await fetch(`${BASE_URL}/api/Projects/${id}`);
-    return await response.json();
+    const response = await api.get(`/api/Projects/${id}`);
+    return response.data;
   }
 
   public async createProject(project: Project): Promise<void> {
-    await fetch(`${BASE_URL}/api/Projects`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(project),
-    });
+    await api.post("/api/Projects", project);
   }
 
   public async updateProject(project: Project): Promise<void> {
-    await fetch(`${BASE_URL}/api/Projects/${project.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(project),
-    });
+    await api.put(`/api/Projects/${project.id}`, project);
   }
 
   public async deleteProject(id: number): Promise<void> {
-    await fetch(`${BASE_URL}/api/Projects/${id}`, {
-      method: 'DELETE',
-    });
+    await api.delete(`/api/Projects/${id}`);
   }
 }

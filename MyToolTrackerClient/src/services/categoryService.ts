@@ -1,5 +1,5 @@
-import { Category } from '@/types/category';
-import { BASE_URL } from '../../constants';
+import { Category } from "@/types/category";
+import api from "@/config/axios";
 
 export interface ICategoryService {
   getCategories(): Promise<Category[]>;
@@ -11,38 +11,24 @@ export interface ICategoryService {
 
 export class CategoryService implements ICategoryService {
   public async getCategories(): Promise<Category[]> {
-    const response = await fetch(`${BASE_URL}/api/Categories`);
-    return await response.json();
+    const response = await api.get("/api/Categories");
+    return response.data;
   }
 
   public async getCategory(id: number): Promise<Category> {
-    const response = await fetch(`${BASE_URL}/api/Categories/${id}`);
-    return await response.json();
+    const response = await api.get(`/api/Categories/${id}`);
+    return response.data;
   }
 
   public async createCategory(category: Category): Promise<void> {
-    await fetch(`${BASE_URL}/api/Categories`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(category),
-    });
+    await api.post("/api/Categories", category);
   }
 
   public async updateCategory(category: Category): Promise<void> {
-    await fetch(`${BASE_URL}/api/Categories/${category.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(category),
-    });
+    await api.put(`/api/Categories/${category.id}`, category);
   }
 
   public async deleteCategory(id: number): Promise<void> {
-    await fetch(`${BASE_URL}/api/Categories/${id}`, {
-      method: 'DELETE',
-    });
+    await api.delete(`/api/Categories/${id}`);
   }
 }

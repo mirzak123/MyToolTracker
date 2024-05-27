@@ -1,6 +1,6 @@
-import { Tool } from '@/types/tool';
-import { ToolStatus } from '@/types/toolStatus';
-import { BASE_URL } from '../../constants';
+import { Tool } from "@/types/tool";
+import { ToolStatus } from "@/types/toolStatus";
+import api from "@/config/axios";
 
 export interface IToolService {
   getTools(): Promise<Tool[]>;
@@ -13,43 +13,29 @@ export interface IToolService {
 
 export class ToolService implements IToolService {
   async getTools(): Promise<Tool[]> {
-    const response = await fetch(`${BASE_URL}/api/Tools`);
-    return await response.json();
+    const response = await api.get("/api/Tools");
+    return await response.data;
   }
 
   async getTool(id: number): Promise<Tool> {
-    const response = await fetch(`${BASE_URL}/api/Tools/${id}`);
-    return await response.json();
+    const response = await api.get(`/api/Tools/${id}`);
+    return await response.data;
   }
 
   async createTool(tool: Tool): Promise<void> {
-    await fetch(`${BASE_URL}/api/Tools`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(tool),
-    });
+    await api.post("/api/Tools", tool);
   }
 
   async updateTool(tool: Tool): Promise<void> {
-    await fetch(`${BASE_URL}/api/Tools/${tool.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(tool),
-    });
+    await api.put(`/api/Tools/${tool.id}`, tool);
   }
 
   async deleteTool(id: number): Promise<void> {
-    await fetch(`${BASE_URL}/api/Tools/${id}`, {
-      method: 'DELETE',
-    });
+    await api.delete(`/api/Tools/${id}`);
   }
 
   async getToolStatuses(): Promise<ToolStatus[]> {
-    const response = await fetch(`${BASE_URL}/api/ToolStatuses`);
-    return await response.json();
+    const response = await api.get("/api/ToolStatuses");
+    return await response.data;
   }
 }
