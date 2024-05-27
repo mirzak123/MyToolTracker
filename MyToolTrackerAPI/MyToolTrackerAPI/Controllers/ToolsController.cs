@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
@@ -11,8 +12,9 @@ namespace MyToolTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-	public class ToolsController : Controller
-	{
+    [Authorize]
+    public class ToolsController : Controller
+    {
         private readonly IToolRepository _toolRepository;
         private readonly IMapper _mapper;
 

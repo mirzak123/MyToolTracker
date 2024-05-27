@@ -9,10 +9,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MyToolTrackerAPI.Service;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -29,36 +30,28 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 })
    .AddEntityFrameworkStores<DataContext>();
 
+
+var key = Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]);
+
 builder.Services.AddAuthentication(options =>
 {
-
-    options.DefaultAuthenticateScheme =
-    options.DefaultChallengeScheme =
-    options.DefaultForbidScheme =
-    options.DefaultScheme =
-    options.DefaultSignInScheme =
-    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
-
-}).AddJwtBearer(options =>
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
 {
-
     options.TokenValidationParameters = new TokenValidationParameters
     {
-
         ValidateIssuer = true,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
         ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]))
-    
-
+        IssuerSigningKey = new SymmetricSecurityKey(key)
     };
-
 });
 
-// Add repositories
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyTypeRepository, CompanyTypeRepository>();
@@ -71,7 +64,7 @@ builder.Services.AddScoped<IToolStatusRepository, ToolStatusRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
-// To make api available for the frontend
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAnyOrigin",
@@ -83,12 +76,13 @@ builder.Services.AddCors(options =>
         });
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -114,8 +108,7 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
-// Swagger bug fix
-// Does not display DateOnly in correct format by default
+
 builder.Services.AddSwaggerGen(options => {
     options.MapType<DateOnly>(() => new OpenApiSchema
     {
@@ -142,7 +135,7 @@ void SeedData(IHost app)
     }
 }
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -155,11 +148,16 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseAuthorization();
+
+app.UseWhen(context => context.Request.Path.StartsWithSegments("/swagger"), appBuilder =>
+{
+    appBuilder.UseAuthentication();
+    appBuilder.UseAuthorization();
+});
 
 app.MapControllers();
 
-// To make API available to frontend
+
 app.UseCors("AllowAnyOrigin");
 
 app.Run();
