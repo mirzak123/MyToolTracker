@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
@@ -9,6 +10,7 @@ namespace MyToolTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserRolesController : Controller
     {
         private readonly IUserRoleRepository _userRoleRepository;

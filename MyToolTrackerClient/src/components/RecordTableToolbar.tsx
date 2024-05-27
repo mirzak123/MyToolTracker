@@ -6,8 +6,8 @@ import {
 import { GridRowSelectionModel } from '@mui/x-data-grid';
 
 export interface Props {
-  handleOpenDialogAdd: (value: boolean) => void;
-  handleOpenDialogUpdate: (value: boolean) => void;
+  handleOpenDialogAdd: () => void;
+  handleOpenDialogUpdate: () => void;
   handleDeleteSelected: () => void;
   recordType: string;
   selectedIds: GridRowSelectionModel;

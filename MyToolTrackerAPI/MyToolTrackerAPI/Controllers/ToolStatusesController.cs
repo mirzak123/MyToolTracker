@@ -1,14 +1,18 @@
 ﻿using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Dto;
 using MyToolTrackerAPI.Interfaces;
 using MyToolTrackerAPI.Models;
+using System.Diagnostics;
+
 
 namespace MyToolTrackerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ToolStatusesController : Controller
     {
         private readonly IToolStatusRepository _toolStatusRepository;
