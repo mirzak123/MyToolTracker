@@ -12,7 +12,7 @@ const withAuth = (WrappedComponent: React.ComponentType<any>) => {
 
     useEffect(() => {
       // Redirect to login page if user is not authenticated
-      if (!loading && !token) {
+      if (!loading && (!token || token === "null")) {
         router.push("/login");
       }
     }, [loading, router, token]);

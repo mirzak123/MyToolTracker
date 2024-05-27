@@ -1,9 +1,8 @@
 "use client";
 
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormEvent } from "react";
 import {
   Box,
   TextField,
@@ -59,51 +58,63 @@ const LoginPage = () => {
         alignItems: "center",
       }}
     >
-      <Box sx={{ textAlign: "center" }}>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
         <h1>Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            {...register("username")}
-            label={errors.username ? errors.username.message : "Username"}
-            error={errors.username ? true : false}
-            margin="normal"
-            fullWidth
-          />
-          <TextField
-            {...register("password")}
-            label={errors.password ? errors.password.message : "Password"}
-            error={errors.password ? true : false}
-            margin="normal"
-            fullWidth
-            type="password"
-          />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              disabled={isSubmitting}
-              sx={{ height: "56px", mt: "16px" }}
-              type="submit"
-              variant="contained"
-              color="primary"
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            maxWidth: "60%",
+            width: "700px",
+          }}
+        >
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+              {...register("username")}
+              label={errors.username ? errors.username.message : "Username"}
+              error={errors.username ? true : false}
+              margin="normal"
               fullWidth
-            >
-              {isSubmitting ? (
-                <CircularProgress color="secondary" />
-              ) : (
-                <Typography fontWeight="bold">Login</Typography>
-              )}
-            </Button>
+            />
+            <TextField
+              {...register("password")}
+              label={errors.password ? errors.password.message : "Password"}
+              error={errors.password ? true : false}
+              margin="normal"
+              fullWidth
+              type="password"
+            />
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                disabled={isSubmitting}
+                sx={{ height: "56px", mt: "16px" }}
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
+                {isSubmitting ? (
+                  <CircularProgress color="secondary" />
+                ) : (
+                  <Typography fontWeight="bold">Login</Typography>
+                )}
+              </Button>
+            </Box>
+            {errors.root && (
+              <Box sx={{ color: "red", mt: "16px" }}>{errors.root.message}</Box>
+            )}
+          </form>
+          <Box sx={{ mt: "16px" }}>
+            <Typography>
+              Don&apos;t have an account?{" "}
+              <Button variant="text" href="/register">
+                Register
+              </Button>
+            </Typography>
           </Box>
-          {errors.root && (
-            <Box sx={{ color: "red", mt: "16px" }}>{errors.root.message}</Box>
-          )}
-        </form>
-        <Box sx={{ mt: "16px" }}>
-          <Typography>
-            Don&apos;t have an account?{" "}
-            <Button variant="text" href="/register">
-              Register here
-            </Button>
-          </Typography>
         </Box>
       </Box>
     </Box>
