@@ -1,6 +1,7 @@
 export interface Project {
   id: number;
   contractNumber: string;
-  companyId: number; 
+  companyId: number;
   year: number;
+  name: string;
 }

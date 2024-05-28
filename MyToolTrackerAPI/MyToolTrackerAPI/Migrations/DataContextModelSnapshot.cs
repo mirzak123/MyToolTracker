@@ -51,13 +51,13 @@ namespace MyToolTrackerAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e08dd899-a77c-47ee-b332-e00bfd6d9987",
+                            Id = "71c8d6fc-1963-44b2-bef5-848dc65f4486",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "e1db899e-aa1e-435e-a8bd-45653c1d8160",
+                            Id = "2ff4346b-71d6-4e8e-a4cc-d1747041405b",
                             Name = "User",
                             NormalizedName = "USER"
                         });

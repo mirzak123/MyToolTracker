@@ -1,19 +1,20 @@
-import * as React from 'react';
-import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import PlusIcon from '@mui/icons-material/Add';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import NoteAddIcon from '@mui/icons-material/NoteAdd';
-import PeopleIcon from '@mui/icons-material/People';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import ApartmentIcon from '@mui/icons-material/Apartment';
+import * as React from "react";
+import Drawer from "@mui/material/Drawer";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import PlusIcon from "@mui/icons-material/Add";
+import EngineeringIcon from "@mui/icons-material/Engineering";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
+import PeopleIcon from "@mui/icons-material/People";
+import ConstructionIcon from "@mui/icons-material/Construction";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import { ReceiptLong, Work } from "@mui/icons-material";
 
 const drawerWidth = 240;
 
@@ -23,9 +24,9 @@ export default function Sidebar() {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
           zIndex: 50,
         },
       }}
@@ -40,7 +41,7 @@ export default function Sidebar() {
             <ListItemIcon>
               <PlusIcon color="primary" />
             </ListItemIcon>
-              <ListItemText primary="Add Tool" />
+            <ListItemText primary="Add Tool" />
           </ListItemButton>
         </ListItem>
         <ListItem key="Tools" disablePadding>
@@ -98,6 +99,25 @@ export default function Sidebar() {
               <ApartmentIcon color="primary" />
             </ListItemIcon>
             <ListItemText primary="Companies" />
+          </ListItemButton>
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem key="Add Project" disablePadding>
+          <ListItemButton href="/add-project">
+            <ListItemIcon>
+              <ReceiptLong color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Add Project" />
+          </ListItemButton>
+        </ListItem>
+        <ListItem key="Projects" disablePadding>
+          <ListItemButton href="/projects">
+            <ListItemIcon>
+              <Work color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Projects" />
           </ListItemButton>
         </ListItem>
       </List>
