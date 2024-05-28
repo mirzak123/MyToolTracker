@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import RecordForm from "@/components/RecordForm";
@@ -22,7 +22,10 @@ const inputFields = {
   phoneNumber: { type: "text", label: "Phone number" },
   address: { type: "text", label: "Address" },
   contactPerson: { type: "text", label: "Contact person" },
-  contactPersonPhoneNumber: { type: "text", label: "Contact person phone number" },
+  contactPersonPhoneNumber: {
+    type: "text",
+    label: "Contact person phone number",
+  },
   email: { type: "text", label: "Email" },
   companyTypeId: { type: "select", label: "Company type" },
 };
@@ -45,8 +48,9 @@ const AddCompanyForm: React.FC<FormProps> = ({
   const options = {
     companyTypeId: companyTypes.map((companyType) => ({
       value: companyType.id,
-      label: companyType.name
-    })) }
+      label: companyType.name,
+    })),
+  };
 
   return (
     <RecordForm
@@ -60,7 +64,7 @@ const AddCompanyForm: React.FC<FormProps> = ({
       options={options}
       recordType="Company"
     />
-  )
-}
+  );
+};
 
 export default AddCompanyForm;

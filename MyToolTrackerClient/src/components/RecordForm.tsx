@@ -1,17 +1,18 @@
-import * as React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { z, ZodTypeAny } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import CustomSelect from '@/components/CustomSelect';
-import useOpenState from '@/hooks/useOpenState';
+import * as React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { z, ZodTypeAny } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CustomSelect from "@/components/CustomSelect";
+import useOpenState from "@/hooks/useOpenState";
 
 import {
   TextField,
   Button,
   Box,
   CircularProgress,
+  Typography,
 } from "@mui/material";
-import FormSuccessSnackbar from './FormSuccessSnackbar';
+import FormSuccessSnackbar from "./FormSuccessSnackbar";
 
 // Explanation of the RecordForm component
 // The RecordForm component is a reusable form component that can be used to create or update records.
@@ -34,7 +35,7 @@ import FormSuccessSnackbar from './FormSuccessSnackbar';
 interface FormProps<T> {
   schema: ZodTypeAny;
   defaultValues?: T;
-  inputFields: Record<keyof T, { type: string, label: string }>;
+  inputFields: Record<keyof T, { type: string; label: string }>;
   fetchData?: () => void;
   isUpdate?: boolean;
   addRecord: (data: T) => Promise<void>;
@@ -59,7 +60,11 @@ const RecordForm: React.FC<FormProps<any>> = ({
   recordType,
 }) => {
   // Custom hook for snackbar
-  const { isOpen: isSnackbarOpen, open: openSnackbar, close: closeSnackbar } = useOpenState();
+  const {
+    isOpen: isSnackbarOpen,
+    open: openSnackbar,
+    close: closeSnackbar,
+  } = useOpenState();
 
   const {
     register,
@@ -90,23 +95,37 @@ const RecordForm: React.FC<FormProps<any>> = ({
         message: "An unexpected error occurred. Please try again.",
       });
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {Object.entries(inputFields).map(([key, inputField], index) => {
-        if (inputField["type"] === 'text') {
+        if (inputField["type"] === "text") {
           return (
             <TextField
               key={index}
               {...register(key)}
-              label={ errors[key] ? errors[key]?.message : inputField["label"] }
+              label={errors[key] ? errors[key]?.message : inputField["label"]}
               error={errors[key] ? true : false}
               margin="normal"
               fullWidth
             />
-          )
-        } else if (inputField["type"] === 'select') {
+          );
+        } else if (inputField["type"] === "number") {
+          return (
+            <TextField
+              key={index}
+              {...register(key, {
+                valueAsNumber: true,
+              })}
+              label={errors[key] ? errors[key]?.message : inputField["label"]}
+              error={errors[key] ? true : false}
+              margin="normal"
+              type="number"
+              fullWidth
+            />
+          );
+        } else if (inputField["type"] === "select") {
           return (
             <CustomSelect
               key={index}
@@ -115,36 +134,43 @@ const RecordForm: React.FC<FormProps<any>> = ({
               fieldName={key}
               label={inputField["label"]}
             />
-          )
+          );
         }
-        return (
-          <div key={index}>{`${key} ${inputField["label"]}`}</div>
-        )
+        return <div key={index}>{`${key} ${inputField["label"]}`}</div>;
       })}
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Button
           disabled={isSubmitting}
-          sx={{ height: '56px', mt: '16px' }}
+          sx={{ height: "56px", mt: "16px" }}
           type="submit"
           variant="contained"
           color="primary"
-          fullWidth>
-          { isSubmitting ? <CircularProgress color="secondary" /> :
-            isUpdate ? `Update ${recordType}` : `Add ${recordType}` }
+          fullWidth
+        >
+          {isSubmitting ? (
+            <CircularProgress color="secondary" />
+          ) : (
+            <Typography fontWeight="bold">
+              {isUpdate ? `Update ${recordType}` : `Add ${recordType}`}
+            </Typography>
+          )}
         </Button>
       </Box>
-      { errors.root && <Box sx={{ color: 'red', mt: '16px' }}>{errors.root.message}</Box> }
+      {errors.root && (
+        <Box sx={{ color: "red", mt: "16px" }}>{errors.root.message}</Box>
+      )}
 
       <FormSuccessSnackbar
         isOpen={isSnackbarOpen}
         close={closeSnackbar}
-        message={isUpdate ?
-        `${recordType} updated successfully!` :
-        `${recordType} added successfully!`}
+        message={
+          isUpdate
+            ? `${recordType} updated successfully!`
+            : `${recordType} added successfully!`
+        }
       />
     </form>
   );
-}
+};
 
 export default RecordForm;
-

@@ -1,20 +1,20 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import CreateOrderRequestForm from "@/components/CreateOrderRequestForm";
+import AddProjectForm from "@/components/AddProjectForm";
 import withAuth from "@/hoc/withAuth";
 
-const CreateOrderRequestPage = () => {
+const AddProjectPage = () => {
   return (
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <h1>Create New Order Request</h1>
+      <h1>Add Project</h1>
       <Box sx={{ display: "flex", textAlign: "center", maxWidth: "60%" }}>
-        <CreateOrderRequestForm />
+        <AddProjectForm />
       </Box>
     </main>
   );
 };
 
-export default withAuth(CreateOrderRequestPage);
+export default withAuth(AddProjectPage);

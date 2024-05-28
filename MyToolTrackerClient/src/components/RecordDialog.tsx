@@ -1,14 +1,15 @@
-import * as React from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
 
 // Forms
-import AddEmployeeForm from '@/components/AddEmployeeForm';
-import AddToolForm from '@/components/AddToolForm';
-import AddCompanyForm from '@/components/AddCompanyForm';
+import AddEmployeeForm from "@/components/AddEmployeeForm";
+import AddToolForm from "@/components/AddToolForm";
+import AddCompanyForm from "@/components/AddCompanyForm";
+import AddProjectForm from "@/components/AddProjectForm";
 
 export interface Props {
   open: boolean;
@@ -28,16 +29,15 @@ const RecordDialog: React.FC<Props> = ({
   defaultValues,
   fetchData,
 }) => {
-
-  let action = 'Add';
+  let action = "Add";
   if (isUpdate) {
     // If the form is for updating a record, set the action to 'Update'
-    action = 'Update';
+    action = "Update";
   }
 
   const renderForm = () => {
     switch (recordType) {
-      case 'Employee':
+      case "Employee":
         return (
           <AddEmployeeForm
             fetchData={fetchData}
@@ -45,7 +45,7 @@ const RecordDialog: React.FC<Props> = ({
             isUpdate={isUpdate}
           />
         );
-      case 'Tool':
+      case "Tool":
         return (
           <AddToolForm
             fetchData={fetchData}
@@ -53,9 +53,17 @@ const RecordDialog: React.FC<Props> = ({
             isUpdate={isUpdate}
           />
         );
-      case 'Company':
+      case "Company":
         return (
           <AddCompanyForm
+            fetchData={fetchData}
+            defaultValues={defaultValues}
+            isUpdate={isUpdate}
+          />
+        );
+      case "Project":
+        return (
+          <AddProjectForm
             fetchData={fetchData}
             defaultValues={defaultValues}
             isUpdate={isUpdate}
@@ -64,25 +72,19 @@ const RecordDialog: React.FC<Props> = ({
       default:
         return null;
     }
-  }
+  };
 
   return (
-    <Dialog
-      onClose={handleClose}
-      open={open}
-      scroll="paper"
-    >
+    <Dialog onClose={handleClose} open={open} scroll="paper">
       <DialogTitle textAlign="center" mt={2}>
         {action} {recordType}
       </DialogTitle>
-      <DialogContent sx={{ padding: '16px' }}>
-        { renderForm() }
-      </DialogContent>
+      <DialogContent sx={{ padding: "16px" }}>{renderForm()}</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
-}
+};
 
 export default RecordDialog;

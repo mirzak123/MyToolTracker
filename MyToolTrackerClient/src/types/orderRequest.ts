@@ -1,12 +1,9 @@
-// U bazi: IZDAVANJE
-//
-
 export interface OrderRequest {
   id: number;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
   status: boolean;
   employeeId: number; // reference to the employee
-  projectId: number;  // reference to the project
+  projectId: number; // reference to the project
   toolId: number; // reference to the tool
 }
