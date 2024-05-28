@@ -38,8 +38,14 @@ const schema = z
     employeeId: z.number(),
     projectId: z.number(),
     toolId: z.number(),
-    startDate: z.instanceof(dayjs as unknown as typeof Dayjs),
-    endDate: z.instanceof(dayjs as unknown as typeof Dayjs),
+    startDate: z
+      .instanceof(dayjs as unknown as typeof Dayjs)
+      .refine((val) => val.isValid(), {
+        message: "Invalid start date",
+      }),
+    endDate: z
+      .instanceof(dayjs as unknown as typeof Dayjs)
+      .refine((val) => val.isValid(), { message: "Invalid end date" }),
   })
   .refine((data) => data.startDate <= data.endDate, {
     message: "End date must be after start date",
@@ -81,8 +87,8 @@ const CreateOrderRequestForm = () => {
   } = useForm<OrderRequest>({
     resolver: zodResolver(schema),
     defaultValues: {
-      startDate: dayjs().toDate(),
-      endDate: dayjs().add(1, "day").toDate(),
+      startDate: "",
+      endDate: "",
     },
   });
 
@@ -91,9 +97,7 @@ const CreateOrderRequestForm = () => {
   };
 
   const onSubmit: SubmitHandler<OrderRequest> = async (data) => {
-    console.log(data);
     try {
-      data.status = true;
       data.startDate = new Date(data.startDate);
       data.startDate = formatDateOnly(data.startDate);
       data.endDate = new Date(data.endDate);
