@@ -10,6 +10,7 @@ import AddEmployeeForm from "@/components/AddEmployeeForm";
 import AddToolForm from "@/components/AddToolForm";
 import AddCompanyForm from "@/components/AddCompanyForm";
 import AddProjectForm from "@/components/AddProjectForm";
+import CreateOrderRequestForm from "./CreateOrderRequestForm";
 
 export interface Props {
   open: boolean;
@@ -69,6 +70,8 @@ const RecordDialog: React.FC<Props> = ({
             isUpdate={isUpdate}
           />
         );
+      case "Order Request":
+        return <CreateOrderRequestForm fetchData={fetchData} />;
       default:
         return null;
     }

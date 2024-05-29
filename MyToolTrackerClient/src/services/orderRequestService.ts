@@ -6,7 +6,7 @@ export interface IOrderRequestService {
   getOrderRequest(id: number): Promise<OrderRequest>;
   createOrderRequest(orderRequest: OrderRequest): Promise<void>;
   updateOrderRequest(orderRequest: OrderRequest): Promise<void>;
-  deleteOrderRequest(id: string): Promise<void>;
+  deleteOrderRequest(id: number): Promise<void>;
 }
 
 export class OrderRequestService implements IOrderRequestService {
@@ -28,7 +28,7 @@ export class OrderRequestService implements IOrderRequestService {
     await api.put(`/api/OrderRequests/${orderRequest.id}`, orderRequest);
   }
 
-  async deleteOrderRequest(id: string): Promise<void> {
+  async deleteOrderRequest(id: number): Promise<void> {
     await api.delete(`/api/OrderRequests/${id}`);
   }
 }

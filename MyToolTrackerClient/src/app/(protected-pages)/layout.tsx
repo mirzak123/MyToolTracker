@@ -31,6 +31,7 @@ export default function RootLayout({
                 display: "flex",
                 flexDirection: "column",
                 minHeight: "100vh",
+                position: "relative",
               }}
             >
               <Navbar />
@@ -41,7 +42,6 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
-            );
           </AuthProvider>
         </ThemeProvider>
       </body>

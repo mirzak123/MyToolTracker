@@ -52,7 +52,7 @@ const schema = z
     path: ["endDate"],
   });
 
-const CreateOrderRequestForm = () => {
+const CreateOrderRequestForm = ({ fetchData }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [tools, setTools] = useState<Tool[]>([]);
@@ -103,6 +103,9 @@ const CreateOrderRequestForm = () => {
       data.endDate = new Date(data.endDate);
       data.endDate = formatDateOnly(data.endDate);
       await orderRequestService.createOrderRequest(data);
+      if (fetchData !== undefined) {
+        fetchData();
+      }
       reset();
       openSnackbar();
     } catch (error) {
