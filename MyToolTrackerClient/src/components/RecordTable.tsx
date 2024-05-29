@@ -87,7 +87,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
         selectedIds={selectedIds}
       />
       {records.length === 0 ? (
-        <p>No Tools data available.</p>
+        <p>No records data available.</p>
       ) : (
         <DataGrid
           rows={records}
