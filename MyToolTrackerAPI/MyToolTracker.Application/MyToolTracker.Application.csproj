@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Interfaces\" />
+    <None Remove="Dtos\" />
+    <None Remove="Services\" />
+    <None Remove="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Dtos\" />
+    <Folder Include="Services\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyToolTracker.Domain\MyToolTracker.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.6.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+  </ItemGroup>
+</Project>

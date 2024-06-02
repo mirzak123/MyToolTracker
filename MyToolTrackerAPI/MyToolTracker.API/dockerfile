@@ -1,0 +1,35 @@
+# Use the official dotnet 8 runtime image as the base for the build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+
+# Set working directory within the container
+WORKDIR /app
+
+# Copy project files (assuming your project is in the current directory)
+COPY . .
+
+# Restore dependencies (adjust the path if your project.csproj is elsewhere)
+RUN dotnet restore ./MyToolTrackerAPI.csproj
+
+# Publish the application for deployment (modify arguments if needed)
+RUN dotnet publish ./MyToolTrackerAPI.csproj -c Release -o out/publish
+
+# Create the database
+RUN dotnet ef database update
+
+# Use the official dotnet aspnet core runtime image as the base for the final image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+
+# Set working directory within the container
+WORKDIR /app
+
+# Copy the published output from the build stage
+COPY --from=build /app/out/publish .
+
+# Set the environment variable to configure the application to listen on port 5216
+ENV ASPNETCORE_URLS http://+:5216
+
+# Expose port 5216 (modify if needed)
+EXPOSE 5216
+
+# Set the entry point to run your application (modify if your startup class is different)
+ENTRYPOINT [ "dotnet", "./MyToolTrackerAPI.dll" ]
