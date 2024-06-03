@@ -41,6 +41,7 @@ const RecordTableToolbar = ({
         </span>
       </Tooltip>
       <Box>
+        {/* If the record type is "Order Request", the Update button will not be displayed. */}
         {recordType === "Order Request" ? (
           ""
         ) : (
@@ -50,13 +51,13 @@ const RecordTableToolbar = ({
           >
             <span>
               <Button
-                sx={{ marginRight: 3 }}
+                sx={{ marginRight: 3, minWidth: 100 }}
                 disabled={isUpdateDisabled}
                 variant="contained"
                 color="primary"
                 onClick={handleOpenDialogUpdate}
               >
-                Update {recordType}
+                Update
               </Button>
             </span>
           </Tooltip>
@@ -64,9 +65,10 @@ const RecordTableToolbar = ({
         <Button
           variant="contained"
           color="primary"
+          sx={{ minWidth: 100 }}
           onClick={handleOpenDialogAdd}
         >
-          Add {recordType}
+          Add
         </Button>
       </Box>
     </Box>

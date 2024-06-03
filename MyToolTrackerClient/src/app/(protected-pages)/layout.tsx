@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/theme/theme";
 import AuthProvider from "@/contexts/AuthContext";
+import MainLayout from "@/components/MainLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,27 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider theme={theme}>
-          <AuthProvider>
-            <CssBaseline />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                minHeight: "100vh",
-                position: "relative",
-              }}
-            >
-              <Navbar />
-              <div style={{ display: "flex", flexGrow: 1 }}>
-                <Sidebar />
-                <div style={{ flexGrow: 1, paddingTop: "80px" }}>
-                  {children}
-                </div>
-              </div>
-            </div>
-          </AuthProvider>
-        </ThemeProvider>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );

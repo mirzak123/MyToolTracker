@@ -8,6 +8,7 @@ import { Project } from "@/types/project";
 import Box from "@mui/material/Box";
 import { GridColDef } from "@mui/x-data-grid";
 import withAuth from "@/hoc/withAuth";
+import SectionTitle from "@/components/SectionTitle";
 
 // Define columns for the DataGrid
 const columns: GridColDef[] = [
@@ -48,7 +49,7 @@ const ProjectsPage = () => {
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <h1>Projects</h1>
+      <SectionTitle title="Projects" />
       <Box sx={{ width: "90%" }}>
         <RecordTable
           records={projects}

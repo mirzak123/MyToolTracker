@@ -9,6 +9,8 @@ import { Tool } from "@/types/tool";
 import Box from "@mui/material/Box";
 import { GridColDef } from "@mui/x-data-grid";
 import withAuth from "@/hoc/withAuth";
+import { Typography } from "@mui/material";
+import SectionTitle from "@/components/SectionTitle";
 
 // Define columns for the DataGrid
 const columns: GridColDef[] = [
@@ -73,7 +75,7 @@ const ToolsPage = () => {
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <h1>Tools</h1>
+      <SectionTitle title="Tools" />
       <Box sx={{ width: "90%" }}>
         <RecordTable
           records={tools}
