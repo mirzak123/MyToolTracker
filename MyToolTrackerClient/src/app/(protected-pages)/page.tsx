@@ -30,6 +30,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import EventIcon from "@mui/icons-material/Event";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
 import { Construction, Work } from "@mui/icons-material";
+import { Span } from "next/dist/trace";
 
 const projectService = new ProjectService();
 const employeeService = new EmployeeService();
@@ -70,7 +71,13 @@ const HomePage = () => {
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
       <Typography variant="h4" gutterBottom>
-        Welcome to MyToolTracker
+        Welcome to{" "}
+        <Box
+          component="span"
+          sx={{ color: "primary.main", fontWeight: "bold" }}
+        >
+          MyToolTracker
+        </Box>
       </Typography>
       <Typography variant="subtitle1" gutterBottom>
         Manage your company&apos;s tools, projects, employees, and more
