@@ -3,13 +3,14 @@
 import Box from "@mui/material/Box";
 import AddEmployeeForm from "@/components/AddEmployeeForm";
 import withAuth from "@/hoc/withAuth";
+import SectionTitle from "@/components/SectionTitle";
 
 const AddEmployeePage = () => {
   return (
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <h1>Add Employee</h1>
+      <SectionTitle title="Add Employee" />
       <Box sx={{ display: "flex", textAlign: "center", maxWidth: "60%" }}>
         <AddEmployeeForm />
       </Box>
