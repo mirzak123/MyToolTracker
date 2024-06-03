@@ -85,6 +85,7 @@ const RecordTable: React.FC<RecordTableProps> = ({
         handleDeleteSelected={handleDeleteSelected}
         recordType={recordType}
         selectedIds={selectedIds}
+        records={records}
       />
       {records.length === 0 ? (
         <p>No records data available.</p>

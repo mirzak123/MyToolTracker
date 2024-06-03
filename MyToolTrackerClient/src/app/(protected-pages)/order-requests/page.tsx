@@ -11,6 +11,7 @@ import withAuth from "@/hoc/withAuth";
 import { ToolService } from "@/services/toolService";
 import { ProjectService } from "@/services/projectService";
 import { EmployeeService } from "@/services/employeeService";
+import SectionTitle from "@/components/SectionTitle";
 
 // Define columns for the DataGrid
 const columns: GridColDef[] = [
@@ -89,7 +90,7 @@ const OrderRequestsPage = () => {
     <main
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <h1>Order Requests</h1>
+      <SectionTitle title="Order Requests" />
       <Box sx={{ width: "90%" }}>
         <RecordTable
           records={orderRequests}

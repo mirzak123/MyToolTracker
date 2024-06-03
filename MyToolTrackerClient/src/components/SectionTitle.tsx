@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 const SectionTitle = ({ title }: { title: string }) => {
   return (
     <Typography
-      variant="h3"
+      variant="h4"
       gutterBottom
       sx={{
         mt: 3,
