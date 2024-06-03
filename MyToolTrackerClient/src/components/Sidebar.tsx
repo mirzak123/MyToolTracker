@@ -5,7 +5,6 @@ import Drawer from "@mui/material/Drawer";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -15,18 +14,14 @@ import {
   ChevronRight,
   ExpandLess,
   ExpandMore,
-  Menu,
-  RequestPage,
   TableView,
 } from "@mui/icons-material";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import PlusIcon from "@mui/icons-material/Add";
-import EngineeringIcon from "@mui/icons-material/Engineering";
 import PeopleIcon from "@mui/icons-material/People";
-import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import { Business, ReceiptLong, Work } from "@mui/icons-material";
-import { IconButton, Table } from "@mui/material";
+import { Business, Work } from "@mui/icons-material";
+import { IconButton } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -102,13 +97,13 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <PlusIcon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="Create Order Request" />
+                <ListItemText primary="Create" />
               </ListItemButton>
               <ListItemButton href="/order-requests" sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <TableView color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="View Order Requests" />
+                <ListItemText primary="View All" />
               </ListItemButton>
             </List>
           </Collapse>
@@ -129,13 +124,13 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <PlusIcon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="Add Tool" />
+                <ListItemText primary="Add" />
               </ListItemButton>
               <ListItemButton href="/tools" sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <TableView color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="View Tools" />
+                <ListItemText primary="View All" />
               </ListItemButton>
             </List>
           </Collapse>
@@ -155,13 +150,13 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <PlusIcon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="Add Employee" />
+                <ListItemText primary="Add" />
               </ListItemButton>
               <ListItemButton href="/employees" sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <TableView color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="View Employees" />
+                <ListItemText primary="View All" />
               </ListItemButton>
             </List>
           </Collapse>
@@ -181,13 +176,13 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <PlusIcon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="Add Company" />
+                <ListItemText primary="Add" />
               </ListItemButton>
               <ListItemButton href="/companies" sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <TableView color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="View Companies" />
+                <ListItemText primary="View All" />
               </ListItemButton>
             </List>
           </Collapse>
@@ -207,13 +202,13 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <PlusIcon color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="Add Project" />
+                <ListItemText primary="Add" />
               </ListItemButton>
               <ListItemButton href="/projects" sx={{ pl: 4 }}>
                 <ListItemIcon>
                   <TableView color="primary" />
                 </ListItemIcon>
-                <ListItemText primary="View Projects" />
+                <ListItemText primary="View All" />
               </ListItemButton>
             </List>
           </Collapse>

@@ -11,7 +11,7 @@ const CreateOrderRequestPage = () => {
     >
       <h1>Create New Order Request</h1>
       <Box sx={{ display: "flex", textAlign: "center", maxWidth: "60%" }}>
-        <CreateOrderRequestForm />
+        <CreateOrderRequestForm fetchData={() => {}} />
       </Box>
     </main>
   );

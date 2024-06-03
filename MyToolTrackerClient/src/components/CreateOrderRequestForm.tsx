@@ -52,7 +52,7 @@ const schema = z
     path: ["endDate"],
   });
 
-const CreateOrderRequestForm = ({ fetchData }) => {
+const CreateOrderRequestForm = ({ fetchData }: { fetchData: () => void }) => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [tools, setTools] = useState<Tool[]>([]);
