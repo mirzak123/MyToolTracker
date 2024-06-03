@@ -18,7 +18,13 @@ import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
 import { Home } from "@mui/icons-material";
 
-export default function Navbar() {
+export default function Navbar({
+  handleDrawerOpen,
+  open,
+}: {
+  handleDrawerOpen: () => void;
+  open: boolean;
+}) {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null,
   );
@@ -45,10 +51,30 @@ export default function Navbar() {
 
   const { logout } = useAuth();
 
+  const drawerWidth = 240;
+
   return (
-    <AppBar position="fixed" sx={{ zIndex: 100 }}>
+    <AppBar
+      position="fixed"
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer + 1,
+        ...(open && {
+          marginLeft: `${drawerWidth}px`,
+          width: `calc(100% - ${drawerWidth}px)`,
+        }),
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ marginRight: "36px", ...(open && { display: "none" }) }}
+          >
+            <MenuIcon />
+          </IconButton>
           <ConstructionIcon
             sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
           />
@@ -69,48 +95,6 @@ export default function Navbar() {
           >
             MyToolTracker
           </Typography>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-            </Menu>
-          </Box>
           <Typography
             variant="h6"
             noWrap
@@ -160,4 +144,3 @@ export default function Navbar() {
     </AppBar>
   );
 }
-
