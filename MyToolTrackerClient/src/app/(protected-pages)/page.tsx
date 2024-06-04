@@ -35,6 +35,7 @@ import {
   Business,
 } from "@mui/icons-material";
 import { ActivityLogService } from "@/services/activityLogService";
+import Footer from "@/components/Footer";
 
 const projectService = new ProjectService();
 const employeeService = new EmployeeService();
@@ -316,6 +317,8 @@ const HomePage = () => {
           </Paper>
         </Grid>
       </Grid>
+
+      <Footer />
     </Box>
   );
 };
