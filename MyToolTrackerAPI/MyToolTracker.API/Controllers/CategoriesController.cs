@@ -14,12 +14,17 @@ namespace MyToolTrackerAPI.API.Controllers
 	{
 		private readonly ICategoryRepository _categoryRepository;
 		private readonly IMapper _mapper;
+		private readonly IActivityLogService _activityLogService;
+		private readonly ITokenService _tokenService;
 
 		public CategoriesController(ICategoryRepository categoryRepository,
-			IMapper mapper)
+			IMapper mapper, IActivityLogService activityLogService,
+			ITokenService tokenService)
 		{
 			_categoryRepository = categoryRepository;
 			_mapper = mapper;
+			_activityLogService = activityLogService;
+			_tokenService = tokenService;
 		}
 
 		[HttpGet]
@@ -85,7 +90,15 @@ namespace MyToolTrackerAPI.API.Controllers
 				return StatusCode(500, ModelState);
 			}
 
-			return Ok("Successfully created");
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: categoryMap.Id,
+                entityType: "Category",
+                description: $"Category \"{categoryMap.Name}\" was added.");
+
+            return Ok("Successfully created");
         }
 
         [HttpPut("{categoryId}")]
@@ -115,6 +128,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: categoryMap.Id,
+                entityType: "Category",
+                description: $"Category \"{categoryMap.Name}\" was updated.");
+
             return NoContent();
         }
 
@@ -134,6 +155,14 @@ namespace MyToolTrackerAPI.API.Controllers
 
             if (!_categoryRepository.DeleteCategory(categoryToDelete))
                 ModelState.AddModelError("", "Something went wrong deleting category");
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: categoryToDelete.Id,
+                entityType: "Category",
+                description: $"Category \"{categoryToDelete.Name}\" was deleted.");
 
             return NoContent();
         }

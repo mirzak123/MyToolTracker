@@ -12,14 +12,19 @@ namespace MyToolTrackerAPI.API.Controllers
 	[Authorize]
 	public class EmployeesController : Controller
 	{
+		private readonly IActivityLogService _activityLogService;
 		private readonly IEmployeeRepository _employeeRepository;
 		private readonly IMapper _mapper;
+		private readonly ITokenService _tokenService;
 
 		public EmployeesController(IEmployeeRepository employeeRepository,
-			IMapper mapper)
+			IMapper mapper, IActivityLogService activityLogService,
+			ITokenService tokenService)
 		{
+			_activityLogService = activityLogService;
 			_employeeRepository = employeeRepository;
 			_mapper = mapper;
+			_tokenService = tokenService;
 		}
 
 		[HttpGet]
@@ -81,7 +86,15 @@ namespace MyToolTrackerAPI.API.Controllers
 				return StatusCode(500, ModelState);
 			}
 
-			return Ok("Successfully created");
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: employeeMap.Id,
+                entityType: "Employee",
+                description: $"Employee \"{employeeMap.FirstName} {employeeMap.LastName}\" was added.");
+
+            return Ok("Successfully created");
 		}
 
 		[HttpPut("{employeeId}")]
@@ -111,7 +124,15 @@ namespace MyToolTrackerAPI.API.Controllers
 				return StatusCode(500, ModelState);
 			}
 
-			return NoContent();
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: employeeMap.Id,
+                entityType: "Employee",
+                description: $"Employee \"{employeeMap.FirstName} {employeeMap.LastName}\" was updated.");
+
+            return NoContent();
 		}
 
 		[HttpDelete("{employeeId}")]
@@ -131,7 +152,15 @@ namespace MyToolTrackerAPI.API.Controllers
 			if (!_employeeRepository.DeleteEmployee(employeeToDelete))
 				ModelState.AddModelError("", "Something went wrong deleting employee");
 
-			return NoContent();
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: employeeId,
+                entityType: "Employee",
+                description: $"Employee \"{employeeToDelete.FirstName} {employeeToDelete.LastName}\" was deleted.");
+
+            return NoContent();
 		}
 	}
 }

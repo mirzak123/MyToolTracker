@@ -14,12 +14,17 @@ namespace MyToolTrackerAPI.API.Controllers
     {
         private readonly IOrderRequestRepository _orderRequestRepository;
         private readonly IMapper _mapper;
+        private readonly IActivityLogService _activityLogService;
+        private readonly ITokenService _tokenService;
 
         public OrderRequestsController(IOrderRequestRepository orderRequestRepository,
-            IMapper mapper)
+            IMapper mapper, ITokenService tokenService,
+            IActivityLogService activityLogService)
         {
             _orderRequestRepository = orderRequestRepository;
             _mapper = mapper;
+            _tokenService = tokenService;
+            _activityLogService = activityLogService;
         }
 
         [HttpGet]
@@ -81,6 +86,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: orderRequestMap.Id,
+                entityType: "Order Request",
+                description: $"Order request from {orderRequestMap.StartDate} to {orderRequestMap.EndDate} was created.");
+
             return Ok("Successfully created");
         }
 
@@ -103,13 +116,21 @@ namespace MyToolTrackerAPI.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var orderRequstMap = _mapper.Map<OrderRequest>(updatedOrderRequest);
+            var orderRequestMap = _mapper.Map<OrderRequest>(updatedOrderRequest);
 
-            if (!_orderRequestRepository.UpdateOrderRequest(orderRequstMap))
+            if (!_orderRequestRepository.UpdateOrderRequest(orderRequestMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating order request");
                 return StatusCode(500, ModelState);
             }
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: orderRequestMap.Id,
+                entityType: "Order Request",
+                description: $"Order request from {orderRequestMap.StartDate} to {orderRequestMap.EndDate} was updated.");
 
             return NoContent();
         }
@@ -130,6 +151,14 @@ namespace MyToolTrackerAPI.API.Controllers
 
             if (!_orderRequestRepository.DeleteOrderRequest(orderRequestToDelete))
                 ModelState.AddModelError("", "Something went wrong deleting order request");
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: orderRequestId,
+                entityType: "Order Request",
+                description: $"Order request from {orderRequestToDelete.StartDate} to {orderRequestToDelete.EndDate} was deleted.");
 
             return NoContent();
         }

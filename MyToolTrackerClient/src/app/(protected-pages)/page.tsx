@@ -11,6 +11,7 @@ import { OrderRequest } from "@/types/orderRequest";
 import { Project } from "@/types/project";
 import { Tool } from "@/types/tool";
 import { Company } from "@/types/company"; // New type for companies
+import { ActivityLog } from "@/types/activityLog";
 import {
   Box,
   Grid,
@@ -20,30 +21,35 @@ import {
   Card,
   CardContent,
   List,
-  ListItem,
   ListItemText,
+  ListItem,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import RequestPageIcon from "@mui/icons-material/RequestPage";
-import GroupIcon from "@mui/icons-material/Group";
-import BusinessIcon from "@mui/icons-material/Business";
-import EventIcon from "@mui/icons-material/Event";
-import LightbulbIcon from "@mui/icons-material/Lightbulb";
-import { Construction, Work } from "@mui/icons-material";
-import { Span } from "next/dist/trace";
+import {
+  Construction,
+  Work,
+  RequestPage,
+  Group,
+  Event,
+  Lightbulb,
+  Business,
+} from "@mui/icons-material";
+import { ActivityLogService } from "@/services/activityLogService";
 
 const projectService = new ProjectService();
 const employeeService = new EmployeeService();
 const toolService = new ToolService();
 const orderRequestService = new OrderRequestService();
-const companyService = new CompanyService(); // New instance for company service
+const companyService = new CompanyService();
+const activityLogService = new ActivityLogService();
 
 const HomePage = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [tools, setTools] = useState<Tool[]>([]);
   const [orderRequests, setOrderRequests] = useState<OrderRequest[]>([]);
-  const [companies, setCompanies] = useState<Company[]>([]); // New state for companies
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [recentActivities, setRecentActivities] = useState<ActivityLog[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,13 +59,16 @@ const HomePage = () => {
         const fetchedTools = await toolService.getTools();
         const fetchedOrderRequests =
           await orderRequestService.getOrderRequests();
-        const fetchedCompanies = await companyService.getCompanies(); // Fetch companies
+        const fetchedCompanies = await companyService.getCompanies();
+        const fetchedActivityLogs =
+          await activityLogService.getRecentActivities();
 
         setProjects(fetchedProjects);
         setEmployees(fetchedEmployees);
         setTools(fetchedTools);
         setOrderRequests(fetchedOrderRequests);
         setCompanies(fetchedCompanies);
+        setRecentActivities(fetchedActivityLogs);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -67,6 +76,23 @@ const HomePage = () => {
 
     fetchData();
   }, []);
+
+  const getActivityIcon = (activity: ActivityLog) => {
+    switch (activity.entityType) {
+      case "Tool":
+        return <Construction color="primary" />;
+      case "Project":
+        return <Work color="primary" />;
+      case "Employee":
+        return <Group color="primary" />;
+      case "Order Request":
+        return <RequestPage color="primary" />;
+      case "Company":
+        return <Business color="primary" />;
+      default:
+        return <Event color="primary" />;
+    }
+  };
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
@@ -131,7 +157,7 @@ const HomePage = () => {
             <Grid item xs={12} md={6} lg={2}>
               <Card>
                 <CardContent>
-                  <RequestPageIcon color="primary" fontSize="large" />
+                  <RequestPage color="primary" fontSize="large" />
                   <Typography variant="h6">Order Requests</Typography>
                   <Typography variant="body2">
                     Manage your order requests.
@@ -151,7 +177,7 @@ const HomePage = () => {
             <Grid item xs={12} md={6} lg={2}>
               <Card>
                 <CardContent>
-                  <GroupIcon color="primary" fontSize="large" />
+                  <Group color="primary" fontSize="large" />
                   <Typography variant="h6">Employees</Typography>
                   <Typography variant="body2">
                     Manage your employees.
@@ -171,7 +197,7 @@ const HomePage = () => {
             <Grid item xs={12} md={6} lg={2}>
               <Card>
                 <CardContent>
-                  <BusinessIcon color="primary" fontSize="large" />
+                  <Business color="primary" fontSize="large" />
                   <Typography variant="h6">Companies</Typography>
                   <Typography variant="body2">
                     Manage your companies.
@@ -190,9 +216,9 @@ const HomePage = () => {
           </Grid>
         </Grid>
 
-        {/* Company Statistics */}
+        {/* Statistics and Recent Activities */}
         <Grid item xs={12} lg={8}>
-          <Paper sx={{ p: 2 }}>
+          <Paper sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Company Statistics
             </Typography>
@@ -208,31 +234,59 @@ const HomePage = () => {
               Companies: {companies.length}
             </Typography>
           </Paper>
+
+          <Paper sx={{ p: 2, maxHeight: "400px", overflow: "auto" }}>
+            <Typography variant="h6" gutterBottom>
+              Recent Activities
+            </Typography>
+            <List>
+              {recentActivities.map((activity) => (
+                <ListItem
+                  key={activity.id}
+                  sx={{ alignItems: "flex-start", paddingLeft: 0 }}
+                >
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item>
+                      <ListItem sx={{ minWidth: "auto" }}>
+                        {getActivityIcon(activity)}
+                      </ListItem>
+                    </Grid>
+                    <Grid item xs>
+                      <ListItemText
+                        primary={activity.description}
+                        secondary={`On ${new Date(activity.timestamp).toLocaleString()}`}
+                      />
+                    </Grid>
+                  </Grid>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
         </Grid>
 
-        {/* Upcoming Events */}
+        {/* Upcoming Events and Tips and Tricks */}
         <Grid item xs={12} lg={4}>
-          <Paper sx={{ p: 2 }}>
+          <Paper sx={{ p: 2, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Upcoming Events
             </Typography>
             <List>
               <ListItem>
-                <EventIcon color="primary" sx={{ mr: 2 }} />
+                <Event color="primary" sx={{ mr: 2 }} />
                 <ListItemText
                   primary="Company Meeting"
                   secondary="July 10, 2024"
                 />
               </ListItem>
               <ListItem>
-                <EventIcon color="primary" sx={{ mr: 2 }} />
+                <Event color="primary" sx={{ mr: 2 }} />
                 <ListItemText
                   primary="Project Deadline"
                   secondary="July 15, 2024"
                 />
               </ListItem>
               <ListItem>
-                <EventIcon color="primary" sx={{ mr: 2 }} />
+                <Event color="primary" sx={{ mr: 2 }} />
                 <ListItemText
                   primary="Tool Maintenance"
                   secondary="July 20, 2024"
@@ -240,25 +294,22 @@ const HomePage = () => {
               </ListItem>
             </List>
           </Paper>
-        </Grid>
 
-        {/* Tips and Tricks */}
-        <Grid item xs={12}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom>
               Tips and Tricks
             </Typography>
             <List>
               <ListItem>
-                <LightbulbIcon color="primary" sx={{ mr: 2 }} />
+                <Lightbulb color="primary" sx={{ mr: 2 }} />
                 <ListItemText primary="Tip 1: Use the auto suggestion feature to add order requests quickly." />
               </ListItem>
               <ListItem>
-                <LightbulbIcon color="primary" sx={{ mr: 2 }} />
+                <Lightbulb color="primary" sx={{ mr: 2 }} />
                 <ListItemText primary="Tip 2: You can sort and filter table data by using action buttons in the table header." />
               </ListItem>
               <ListItem>
-                <LightbulbIcon color="primary" sx={{ mr: 2 }} />
+                <Lightbulb color="primary" sx={{ mr: 2 }} />
                 <ListItemText primary="Tip 3: Utilize the notifications to stay on top of order requests." />
               </ListItem>
             </List>

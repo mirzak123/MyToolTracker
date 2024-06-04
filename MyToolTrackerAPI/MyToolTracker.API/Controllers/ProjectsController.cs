@@ -14,13 +14,18 @@ namespace MyToolTrackerAPI.API.Controllers
 	{
 		private readonly IProjectRepository _projectRepository;
 		private readonly IMapper _mapper;
+        private readonly IActivityLogService _activityLogService;
+        private readonly ITokenService _tokenService;
 
-		public ProjectsController(IProjectRepository projectRepository,
-			IMapper mapper)
+        public ProjectsController(IProjectRepository projectRepository,
+			IMapper mapper, ITokenService tokenService,
+            IActivityLogService activityLogService)
 		{
 			_projectRepository = projectRepository;
 			_mapper = mapper;
-		}
+            _tokenService = tokenService;
+            _activityLogService = activityLogService;
+        }
 
 		[HttpGet]
 		[ProducesResponseType(200, Type = typeof(IEnumerable<Project>))]
@@ -81,6 +86,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: projectMap.Id,
+                entityType: "Project",
+                description: $"Project \"{projectMap.Name}\" was added.");
+
             return Ok("Successfully created");
         }
 
@@ -111,6 +124,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: projectMap.Id,
+                entityType: "Project",
+                description: $"Project \"{projectMap.Name}\" was updated.");
+
             return NoContent();
         }
 
@@ -130,6 +151,14 @@ namespace MyToolTrackerAPI.API.Controllers
 
             if (!_projectRepository.DeleteProject(projectToDelete))
                 ModelState.AddModelError("", "Something went wrong deleting project");
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: projectId,
+                entityType: "Project",
+                description: $"Project \"{projectToDelete.Name}\" was deleted.");
 
             return NoContent();
         }

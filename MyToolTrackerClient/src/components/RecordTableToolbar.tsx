@@ -22,6 +22,7 @@ const RecordTableToolbar = ({
 }: Props) => {
   const isDeleteDisabled = selectedIds?.length === 0;
   const isUpdateDisabled = selectedIds?.length !== 1;
+  const isExportDisabled = records?.length === 0;
 
   const handleExport = () => {
     exportToCSV(records, `${recordType}_Data`);
@@ -56,15 +57,20 @@ const RecordTableToolbar = ({
           alignItems: "center",
         }}
       >
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ marginRight: 3, minWidth: 110, fontWeight: "bold" }}
-          startIcon={<FileDownload />}
-          onClick={handleExport}
-        >
-          Export
-        </Button>
+        <Tooltip title={isExportDisabled ? "No records to export" : ""} arrow>
+          <span>
+            <Button
+              disabled={isExportDisabled}
+              variant="contained"
+              color="primary"
+              sx={{ marginRight: 3, minWidth: 110, fontWeight: "bold" }}
+              startIcon={<FileDownload />}
+              onClick={handleExport}
+            >
+              Export
+            </Button>
+          </span>
+        </Tooltip>
         <Divider orientation="vertical" sx={{ marginRight: 3 }} />
         {/* If the record type is "Order Request", the Update button will not be displayed. */}
         {recordType === "Order Request" ? (
