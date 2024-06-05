@@ -17,11 +17,10 @@ namespace MyToolTrackerAPI.Infrastructure.Data
         public DbSet<OrderRequest> OrderRequests { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Tool> Tools { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<EmployeeType> EmployeeTypes { get; set; }
         public DbSet<CompanyType> CompanyTypes { get; set; }
         public DbSet<ToolStatus> ToolStatuses { get; set; }
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
 
         
 
@@ -32,26 +31,6 @@ namespace MyToolTrackerAPI.Infrastructure.Data
             modelBuilder.Entity<Tool>()
                 .Property(p => p.Price)
                 .HasColumnType("decimal(18,4)"); // 18 digits and 4 decimal places
-
-            base.OnModelCreating(modelBuilder);
-            List<IdentityRole> roles = new List<IdentityRole>
-            {
-
-                new IdentityRole
-                {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                },
-
-
-                new IdentityRole
-                {
-                    Name = "User",
-                    NormalizedName = "USER"
-                }
-
-            };
-            modelBuilder.Entity<IdentityRole>().HasData(roles);
         }
     }
 }

@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  # Next.js container
+  nextjs:
+    build:
+      context: ./MyToolTrackerClient # Replace with the path to your Next.js project directory
+      dockerfile: Dockerfile # Use the Dockerfile in the same directory
+    ports:
+      - "3000:3000" # Expose port 3000 from the container to the host
+    environment:
+      NEXT_PUBLIC_WEBAPI_URL: http://webapi:5216 # Replace with the actual URL or alias for the Web API container
+
+  # .NET Web API container
+  webapi:
+    build:
+      context: ./MyToolTrackerAPI/MyToolTrackerAPI/ # Replace with the path to your .NET Web API project directory
+      dockerfile: Dockerfile # Use the Dockerfile in the same directory
+    ports:
+      - "5216:5216" # Expose port 5216 from the container to the host (adjust as needed)
+    environment:
+      # Set any environment variables needed by your Web API
+      ASPNETCORE_ENVIRONMENT: Development # Adjust environment based on your needs
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=${DB_NAME};User Id=SA;Password=${DB_PASSWORD};TrustServerCertificate=true" # Reference environment variables
+
+  # MS SQL Server container
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge # Replace with the desired SQL Server version (e.g., 2019-latest)
+    environment:
+      ACCEPT_EULA: "Y" # Accept the SQL Server license agreement
+      SA_PASSWORD: "@azriM123" # Replace with a strong password
+    ports:
+      - "1433:1433" # Expose the standard SQL Server port
+
+networks:
+  # Internal network for communication between containers (optional)
+  backend:
+    driver: bridge

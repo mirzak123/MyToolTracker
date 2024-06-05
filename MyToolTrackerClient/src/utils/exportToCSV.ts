@@ -1,6 +1,10 @@
 import { Parser } from "json2csv";
 
 const exportToCSV = (data: any, fileName: string) => {
+  if (data.length === 0) {
+    return;
+  }
+
   const parser = new Parser();
   const csv = parser.parse(data);
 

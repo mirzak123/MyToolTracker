@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Application.Dtos;
@@ -12,13 +13,19 @@ namespace MyToolTrackerAPI.API.Controllers
     [Authorize]
     public class ToolsController : Controller
     {
+        private readonly IActivityLogService _activityLogService;
         private readonly IToolRepository _toolRepository;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
 
-        public ToolsController(IToolRepository toolRepository, IMapper mapper)
+        public ToolsController(IToolRepository toolRepository, IMapper mapper,
+            IActivityLogService activityLogService,
+            ITokenService tokenService)
         {
+            _activityLogService = activityLogService;
             _toolRepository = toolRepository;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -80,6 +87,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: toolMap.Id,
+                entityType: "Tool",
+                description: $"Tool \"{toolMap.Name}\" was added.");
+
             return Ok("Successfully created");
         }
 
@@ -110,6 +125,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: toolId,
+                entityType: "Tool",
+                description: $"Tool \"{toolMap.Name}\" was updated.");
+
             return NoContent();
         }
 
@@ -129,6 +152,14 @@ namespace MyToolTrackerAPI.API.Controllers
 
             if (!_toolRepository.DeleteTool(toolToDelete))
                 ModelState.AddModelError("", "Something went wrong deleting tool");
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: toolId,
+                entityType: "Tool",
+                description: $"Tool \"{toolToDelete.Name}\" was deleted.");
 
             return NoContent();
         }

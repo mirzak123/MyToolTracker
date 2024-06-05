@@ -9,13 +9,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MyToolTrackerAPI.Application.Services;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddEnvironmentVariables().Build();
 
-builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DataContext>(opt =>
+opt.UseSqlServer(
+           builder.Configuration.GetConnectionString("DefaultConnection"),
+           b => b.MigrationsAssembly("MyToolTracker.Infrastructure")));
+
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
@@ -61,8 +65,9 @@ builder.Services.AddScoped<IOrderRequestRepository, OrderRequestRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<IToolRepository, ToolRepository>();
 builder.Services.AddScoped<IToolStatusRepository, ToolStatusRepository>();
-builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddScoped<IActivityLogRepository, ActivityLogRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IActivityLogService, ActivityLogService>();
 
 
 builder.Services.AddCors(options =>

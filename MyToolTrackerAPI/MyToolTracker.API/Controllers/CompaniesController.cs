@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyToolTrackerAPI.Application.Dtos;
 using MyToolTrackerAPI.Application.Interfaces;
+using MyToolTrackerAPI.Application.Services;
 using MyToolTrackerAPI.Domain.Models;
 
 namespace MyToolTrackerAPI.API.Controllers
@@ -14,12 +15,17 @@ namespace MyToolTrackerAPI.API.Controllers
 	{
 		private readonly ICompanyRepository _companyRepository;
 		private readonly IMapper _mapper;
+        private readonly IActivityLogService _activityLogService;
+        private readonly ITokenService _tokenService;
 
-		public CompaniesController(ICompanyRepository companyRepository,
-			IMapper mapper)
+        public CompaniesController(ICompanyRepository companyRepository,
+			IMapper mapper, ITokenService tokenService,
+            IActivityLogService activityLogService)
 		{
 			_companyRepository = companyRepository;
 			_mapper = mapper;
+            _tokenService = tokenService;
+            _activityLogService = activityLogService;
 		}
 
 		[HttpGet]
@@ -83,6 +89,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Add",
+                entityId: companyMap.Id,
+                entityType: "Company",
+                description: $"Company \"{companyMap.Name}\" was added.");
+
             return Ok("Successfully created");
         }
 
@@ -113,6 +127,14 @@ namespace MyToolTrackerAPI.API.Controllers
                 return StatusCode(500, ModelState);
             }
 
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Update",
+                entityId: companyMap.Id,
+                entityType: "Company",
+                description: $"Company \"{companyMap.Name}\" was updated.");
+
             return NoContent();
         }
 
@@ -132,6 +154,14 @@ namespace MyToolTrackerAPI.API.Controllers
 
             if (!_companyRepository.DeleteCompany(companyToDelete))
                 ModelState.AddModelError("", "Something went wrong deleting company");
+
+            var userId = _tokenService.GetUserIdFromClaims(User);
+            _activityLogService.LogActivity(
+                userId: userId,
+                actionType: "Delete",
+                entityId: companyToDelete.Id,
+                entityType: "Company",
+                description: $"Company \"{companyToDelete.Name}\" was deleted.");
 
             return NoContent();
         }

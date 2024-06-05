@@ -23,7 +23,8 @@ namespace MyToolTrackerAPI.Application.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
+                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
@@ -46,5 +47,22 @@ namespace MyToolTrackerAPI.Application.Services
 
 
         }
+
+        public string GetUserIdFromClaims(ClaimsPrincipal user)
+        {
+            if (user == null || !user.Identity.IsAuthenticated)
+            {
+                throw new InvalidOperationException("The user is not authenticated.");
+            }
+
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                throw new InvalidOperationException("The user ID claim is missing.");
+            }
+
+            return userIdClaim.Value.ToString();
+        }
+
     }
 }

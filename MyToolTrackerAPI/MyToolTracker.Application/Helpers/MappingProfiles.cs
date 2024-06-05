@@ -17,7 +17,7 @@ namespace MyToolTrackerAPI.Application.Helpers
             CreateMap<Project, ProjectDto>();
 			CreateMap<Tool, ToolDto>();
 			CreateMap<ToolStatus, ToolStatusDto>();
-			CreateMap<UserRole, UserRoleDto>();
+			CreateMap<ActivityLog, ActivityLogDto>();
 
             CreateMap<CategoryDto, Category>();
             CreateMap<CompanyDto, Company>();
@@ -25,6 +25,7 @@ namespace MyToolTrackerAPI.Application.Helpers
 			CreateMap<OrderRequestDto, OrderRequest>();
 			CreateMap<ProjectDto, Project>();
 			CreateMap<ToolDto, Tool>();
+			CreateMap<ActivityLogDto, ActivityLog>();
 
         }
     }
